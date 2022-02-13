@@ -1,9 +1,5 @@
 package multi
 
-type device interface {
-	configure()
-}
-
 // TODO: flesh out configuration methods for each device
 
 func (i Adxl345) configure() {

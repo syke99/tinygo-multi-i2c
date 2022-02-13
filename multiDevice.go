@@ -6,6 +6,11 @@ import (
 	"tinygo.org/x/drivers"
 )
 
+type device interface {
+	configure()
+	connect()
+}
+
 func initializeDeviceMap(bus drivers.I2C, addr uint16) map[string]interface{} {
 
 	deviceMap := make(map[string]interface{})
@@ -40,12 +45,6 @@ func initializeDeviceMap(bus drivers.I2C, addr uint16) map[string]interface{} {
 }
 
 func NewDevice(mach *machine.I2C, deviceName string, addr uint16) {
-	// machine.I2C0.Configure(machine.I2CConfig{})
-	// sensor := bmp180.New(machine.I2C0)
-	// sensor.Configure()
-
-	// sensor.Address = addr
-
 	deviceMap := initializeDeviceMap(mach, addr)
 
 	dev := deviceMap[deviceName]
