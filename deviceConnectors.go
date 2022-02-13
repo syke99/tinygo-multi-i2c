@@ -14,10 +14,10 @@ func (d Bmp280) connected() bool {
 	return data[0] == BMP280_CHIP_ID
 }
 
-func (d Bmp388) connected() bool {
-	data, err := d.readRegister(BMP388_RegChipId, 1)
-	return err == nil && data[0] == BMP388_ChipId // returns true if i2c comm was good and response equals 0x50
-}
+// func (d Bmp388) connected() bool {
+// 	data, err := d.readRegister(BMP388_RegChipId, 1)
+// 	return err == nil && data[0] == BMP388_ChipId // returns true if i2c comm was good and response equals 0x50
+// }
 
 func (i Ina260) connected() error {
 	// Ina260 may need to be removed?

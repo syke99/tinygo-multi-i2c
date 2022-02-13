@@ -36,7 +36,7 @@ func initializeDeviceMap(bus drivers.I2C, addr uint16) map[string]interface{} {
 	return deviceMap
 }
 
-func NewDevice(mach *machine.I2C, deviceName string, addr uint16, bmp280Settings []uint, vl53l1xBool bool) error {
+func NewDevice(mach *machine.I2C, deviceName string, addr uint16, bmp280Settings []uint, vl53l1xBool bool) (interface{}, error) {
 
 	var newDeviceError error
 
@@ -63,5 +63,5 @@ func NewDevice(mach *machine.I2C, deviceName string, addr uint16, bmp280Settings
 		}
 	}
 
-	return newDeviceError
+	return dev, newDeviceError
 }
