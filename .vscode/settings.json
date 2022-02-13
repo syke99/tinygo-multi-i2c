@@ -1,6 +1,0 @@
-{
-    "go.toolsEnvVars": {
-        "GOROOT": "/home/quinn/.cache/tinygo/goroot-c5112fd3b5a140b5e412f8816afa5b2456b0d2e1addebe7a6f4d1001f91e4971",
-        "GOFLAGS": "-tags=avr,baremetal,linux,arm,atmega328p,atmega,avr5,arduino_nano,tinygo,math_big_pure_go,gc.conservative,scheduler.none,serial.uart"
-    }
-}
