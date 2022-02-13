@@ -1,8 +1,6 @@
 package multi
 
 import (
-	"machine"
-
 	"tinygo.org/x/drivers"
 )
 
@@ -10,12 +8,6 @@ import (
 // Capitalized structs are devices, lower-case
 // structs and non-stuct types are requried by
 // the following capitalized struct
-
-type Adt7410 struct {
-	bus     drivers.I2C
-	buf     []byte
-	Address uint8
-}
 
 type Range uint8
 type Rate uint8
@@ -232,38 +224,9 @@ type Bmp388 struct {
 	Config  bmp388Config
 }
 
-type Ds1407 struct {
-	bus         drivers.I2C
-	Address     uint8
-	AddressSRAM uint8
-}
-
 type Ds3231 struct {
 	bus     drivers.I2C
 	Address uint16
-}
-
-type Ft6336 struct {
-	bus     drivers.I2C
-	buf     []byte
-	Address uint8
-	intPin  machine.Pin
-}
-
-type cursor struct {
-	x, y uint8
-}
-
-type Hd44780i2c struct {
-	bus             drivers.I2C
-	addr            uint8
-	width           uint8
-	height          uint8
-	cursor          cursor
-	backlight       uint8
-	displayfunction uint8
-	displaycontrol  uint8
-	displaymode     uint8
 }
 
 type Hts221 struct {
@@ -318,38 +281,6 @@ type Lsm6ds3 struct {
 	dataBufferTwo   []uint8
 }
 
-type Lsm6dsox struct {
-	bus             drivers.I2C
-	Address         uint16
-	dataBufferSix   []uint8
-	dataBufferTwo   []uint8
-	accelMultiplier int32
-	gyroMultiplier  int32
-}
-
-type Lsm9ds1 struct {
-	bus             drivers.I2C
-	AccelAddress    uint8
-	MagAddress      uint8
-	accelMultiplier int32
-	gyroMultiplier  int32
-	magMultiplier   int32
-	dataBufferSix   []uint8
-	dataBufferTwo   []uint8
-}
-
-type Lsm303agr struct {
-	bus            drivers.I2C
-	AccelAddress   uint8
-	MagAddress     uint8
-	AccelPowerMode uint8
-	AccelRange     uint8
-	AccelDataRate  uint8
-	MagPowerMode   uint8
-	MagSystemMode  uint8
-	MagDataRate    uint8
-}
-
 type Mag3110 struct {
 	bus     drivers.I2C
 	Address uint16
@@ -383,14 +314,6 @@ type Tmp102 struct {
 	address uint8
 }
 
-type Veml6070 struct {
-	bus         drivers.I2C
-	AddressLow  uint16
-	AddressHigh uint16
-	RSET        uint32
-	IT          uint8
-}
-
 type vl53l1xDistanceMode uint8
 type vl53l1xRangeStatus uint8
 
@@ -410,7 +333,7 @@ type vl53l1xResultBuffer struct {
 	signalRateCrosstalkMCPSSD0 uint16
 }
 
-type Vl53l1xDevice struct {
+type Vl53l1x struct {
 	bus                drivers.I2C
 	Address            uint16
 	mode               vl53l1xDistanceMode
