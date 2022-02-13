@@ -6,13 +6,9 @@ import (
 
 // TODO: set up device registers to that
 // these device creation functions can
-// handle default I2C addresses-
-
-// TODO: REMOVE & Veml6070
+// handle default I2C addresses
 
 func newAdx1345(bus drivers.I2C, addr uint16) interface{} {
-	//TODO: Add creation of device to be returned
-
 	if addr == 0 {
 		return Adxl345{
 			bus: bus,
@@ -47,8 +43,6 @@ func newAdx1345(bus drivers.I2C, addr uint16) interface{} {
 }
 
 func newAht20(bus drivers.I2C, addr uint16) interface{} {
-	//TODO: Add creation of device to be returned
-
 	if addr == 0 {
 		return Aht20{
 			bus:     bus,
@@ -63,15 +57,13 @@ func newAht20(bus drivers.I2C, addr uint16) interface{} {
 }
 
 func newAmg88xx(bus drivers.I2C, addr uint16) interface{} {
-	//TODO: Add creation of device to be returned
-
 	if addr == 0 {
-		return Aht20{
+		return Amg88xx{
 			bus:     bus,
 			Address: addr,
 		}
 	} else {
-		return Aht20{
+		return Amg88xx{
 			bus: bus,
 			// Address: AddressHigh,
 		}
@@ -79,8 +71,6 @@ func newAmg88xx(bus drivers.I2C, addr uint16) interface{} {
 }
 
 func newApds9960(bus drivers.I2C, addr uint16) interface{} {
-	//TODO: Add creation of device to be returned
-
 	if addr == 0 {
 		return Apds9960{
 			bus:     bus,
@@ -97,8 +87,6 @@ func newApds9960(bus drivers.I2C, addr uint16) interface{} {
 }
 
 func newAt24cx(bus drivers.I2C, addr uint16) interface{} {
-	//TODO: Add creation of device to be returned
-
 	if addr == 0 {
 		return At24cx{
 			bus:     bus,
@@ -113,8 +101,6 @@ func newAt24cx(bus drivers.I2C, addr uint16) interface{} {
 }
 
 func newBh1750(bus drivers.I2C, addr uint16) interface{} {
-	//TODO: Add creation of device to be returned
-
 	if addr == 0 {
 		return Bh1750{
 			bus:     bus,
@@ -131,8 +117,6 @@ func newBh1750(bus drivers.I2C, addr uint16) interface{} {
 }
 
 func newBlinkm(bus drivers.I2C, addr uint16) interface{} {
-	//TODO: Add creation of device to be returned
-
 	if addr == 0 {
 		return Blinkm{
 			bus:     bus,
@@ -147,7 +131,6 @@ func newBlinkm(bus drivers.I2C, addr uint16) interface{} {
 }
 
 func newBme280(bus drivers.I2C, addr uint16) interface{} {
-
 	if addr == 0 {
 		return Bme280{
 			bus:     bus,
@@ -162,8 +145,6 @@ func newBme280(bus drivers.I2C, addr uint16) interface{} {
 }
 
 func newBmp180(bus drivers.I2C, addr uint16) interface{} {
-	//TODO: Add creation of device to be returned
-
 	if addr == 0 {
 		return Bmp180{
 			bus:     bus,
@@ -180,8 +161,6 @@ func newBmp180(bus drivers.I2C, addr uint16) interface{} {
 }
 
 func newBmp280(bus drivers.I2C, addr uint16) interface{} {
-	//TODO: Add creation of device to be returned
-
 	if addr == 0 {
 		return Bmp280{
 			bus:     bus,
@@ -196,8 +175,6 @@ func newBmp280(bus drivers.I2C, addr uint16) interface{} {
 }
 
 func newBmp388(bus drivers.I2C, addr uint16) interface{} {
-	//TODO: Add creation of device to be returned
-
 	if addr == 0 {
 		return Bmp388{
 			bus:     bus,
@@ -212,8 +189,6 @@ func newBmp388(bus drivers.I2C, addr uint16) interface{} {
 }
 
 func newDs3231(bus drivers.I2C, addr uint16) interface{} {
-	//TODO: Add creation of device to be returned
-
 	if addr == 0 {
 		return Ds3231{
 			bus:     bus,
@@ -228,8 +203,6 @@ func newDs3231(bus drivers.I2C, addr uint16) interface{} {
 }
 
 func newHts221(bus drivers.I2C, addr uint16) interface{} {
-	//TODO: Add creation of device to be returned
-
 	if addr == 0 {
 		return Hts221{
 			bus:     bus,
@@ -244,8 +217,6 @@ func newHts221(bus drivers.I2C, addr uint16) interface{} {
 }
 
 func newIna260(bus drivers.I2C, addr uint16) interface{} {
-	//TODO: Add creation of device to be returned
-
 	if addr == 0 {
 		return Ina260{
 			bus:     bus,
@@ -260,8 +231,6 @@ func newIna260(bus drivers.I2C, addr uint16) interface{} {
 }
 
 func newLis2mdl(bus drivers.I2C, addr uint16) interface{} {
-	//TODO: Add creation of device to be returned
-
 	if addr == 0 {
 		return Lis2mdl{
 			bus:     bus,
@@ -276,8 +245,6 @@ func newLis2mdl(bus drivers.I2C, addr uint16) interface{} {
 }
 
 func newLis3dh(bus drivers.I2C, addr uint16) interface{} {
-	//TODO: Add creation of device to be returned
-
 	if addr == 0 {
 		return Lis3dh{
 			bus:     bus,
@@ -292,15 +259,13 @@ func newLis3dh(bus drivers.I2C, addr uint16) interface{} {
 }
 
 func newLps22hb(bus drivers.I2C, addr uint16) interface{} {
-	//TODO: Add creation of device to be returned
-
 	if addr == 0 {
-		return Lis3dh{
+		return Lps22hb{
 			bus:     bus,
-			Address: addr,
+			Address: uint8(addr),
 		}
 	} else {
-		return Lis2mdl{
+		return Lps22hb{
 			bus: bus,
 			// Address: LPS22HB_ADDRESS,
 		}
@@ -308,8 +273,6 @@ func newLps22hb(bus drivers.I2C, addr uint16) interface{} {
 }
 
 func newLsm6ds3(bus drivers.I2C, addr uint16) interface{} {
-	//TODO: Add creation of device to be returned
-
 	if addr == 0 {
 		return Lsm6ds3{
 			bus:     bus,
@@ -324,8 +287,6 @@ func newLsm6ds3(bus drivers.I2C, addr uint16) interface{} {
 }
 
 func newMag3110(bus drivers.I2C, addr uint16) interface{} {
-	//TODO: Add creation of device to be returned
-
 	if addr == 0 {
 		return Mag3110{
 			bus:     bus,
@@ -340,8 +301,6 @@ func newMag3110(bus drivers.I2C, addr uint16) interface{} {
 }
 
 func newMma8653(bus drivers.I2C, addr uint16) interface{} {
-	//TODO: Add creation of device to be returned
-
 	if addr == 0 {
 		return Mma8653{
 			bus:     bus,
@@ -358,8 +317,6 @@ func newMma8653(bus drivers.I2C, addr uint16) interface{} {
 }
 
 func newMpu6050(bus drivers.I2C, addr uint16) interface{} {
-	//TODO: Add creation of device to be returned
-
 	if addr == 0 {
 		return Mpu6050{
 			bus:     bus,
@@ -374,8 +331,6 @@ func newMpu6050(bus drivers.I2C, addr uint16) interface{} {
 }
 
 func newPcf8563(bus drivers.I2C, addr uint16) interface{} {
-	//TODO: Add creation of device to be returned
-
 	if addr == 0 {
 		return Pcf8563{
 			bus:     bus,
@@ -390,8 +345,6 @@ func newPcf8563(bus drivers.I2C, addr uint16) interface{} {
 }
 
 func newSht3x(bus drivers.I2C, addr uint16) interface{} {
-	//TODO: Add creation of device to be returned
-
 	if addr == 0 {
 		return Sht3x{
 			bus:     bus,
@@ -415,8 +368,6 @@ func newTmp102(bus drivers.I2C, addr uint16) interface{} {
 }
 
 func newVl53l1x(bus drivers.I2C, addr uint16) interface{} {
-	//TODO: Add creation of device to be returned
-
 	if addr == 0 {
 		return Vl53l1x{
 			bus:     bus,

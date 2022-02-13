@@ -1,7 +1,6 @@
 package multi
 
 import (
-	"fmt"
 	"machine"
 
 	"tinygo.org/x/drivers"
@@ -51,5 +50,5 @@ func NewDevice(mach *machine.I2C, deviceName string, addr uint16) {
 
 	dev := deviceMap[deviceName]
 
-	fmt.Println(dev)
+	dev.(device).configure()
 }
