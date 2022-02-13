@@ -1,13 +1,14 @@
 package multi
 
 import (
+	"errors"
 	"machine"
 
 	"tinygo.org/x/drivers"
 )
 
 type device interface {
-	configure(uint, uint, uint, uint, bool)
+	configure(uint, uint, uint, uint, bool) error
 	connected() bool
 }
 
@@ -35,18 +36,21 @@ func initializeDeviceMap(bus drivers.I2C, addr uint16) map[string]interface{} {
 	return deviceMap
 }
 
-func NewDevice(mach *machine.I2C, deviceName string, addr uint16, bmp280Settings []uint, vl53l1xBool bool) {
+func NewDevice(mach *machine.I2C, deviceName string, addr uint16, bmp280Settings []uint, vl53l1xBool bool) error {
+
+	var newDeviceError error
+
 	deviceMap := initializeDeviceMap(mach, addr)
 
 	dev := deviceMap[deviceName]
 
 	switch dev.(type) {
 	case Bme280:
-		dev.(device).configure(bmp280Settings[0], bmp280Settings[1], bmp280Settings[2], bmp280Settings[3], false)
+		newDeviceError = dev.(device).configure(bmp280Settings[0], bmp280Settings[1], bmp280Settings[2], bmp280Settings[3], false)
 	case Vl53l1x:
-		dev.(device).configure(0, 0, 0, 0, vl53l1xBool)
+		newDeviceError = dev.(device).configure(0, 0, 0, 0, vl53l1xBool)
 	default:
-		dev.(device).configure(0, 0, 0, 0, false)
+		newDeviceError = dev.(device).configure(0, 0, 0, 0, false)
 	}
 
 	connectedBool := false
@@ -55,7 +59,9 @@ func NewDevice(mach *machine.I2C, deviceName string, addr uint16, bmp280Settings
 	case Bme280, Bmp280, Bmp388, Lis3dh, Lps22hb, Mpu6050:
 		connectedBool = dev.(device).connected()
 		if !connectedBool {
-			print("I will need to implement error handling and it will go here.")
+			newDeviceError = errors.New("Device configured but unable to connect.")
 		}
 	}
+
+	return newDeviceError
 }

@@ -1,16 +1,21 @@
 package multi
 
-import "time"
+import (
+	"errors"
+	"time"
+)
 
 // TODO: flesh out configuration methods for each device
 
-func (d Adxl345) configure() {
+func (d Adxl345) configure() error {
 	d.bus.WriteRegister(uint8(d.Address), ADX1345_REG_BW_RATE, []byte{d.bwRate.toByte()})
 	d.bus.WriteRegister(uint8(d.Address), ADX1345_REG_POWER_CTL, []byte{d.powerCtl.toByte()})
 	d.bus.WriteRegister(uint8(d.Address), ADX1345_REG_DATA_FORMAT, []byte{d.dataFormat.toByte()})
+
+	return nil
 }
 
-func (d Amg88xx) configure() {
+func (d Amg88xx) configure() error {
 	d.data = make([]uint8, 128)
 
 	d.SetPCTL(AMG88XX_NORMAL_MODE)
@@ -18,38 +23,48 @@ func (d Amg88xx) configure() {
 	d.SetFrameRate(AMG88XX_FPS_10)
 
 	time.Sleep(100 * time.Millisecond)
+
+	return nil
 }
 
 func (d At24cx) configure() {
 	// At24cx may need to be removed?
 }
 
-func (d Bh1750) configure() {
-	d.bus.Tx(d.Address, []byte{BH1750_POWER_ON}, nil)
+func (d Bh1750) configure() error {
+	if err := d.bus.Tx(d.Address, []byte{BH1750_POWER_ON}, nil); err != nil {
+		return err
+	}
 	d.SetMode(d.mode)
+
+	return nil
 }
 
-func (d Blinkm) configure() {
-	d.bus.Tx(d.Address, []byte{'o'}, nil)
+func (d Blinkm) configure() error {
+	if err := d.bus.Tx(d.Address, []byte{'o'}, nil); err != nil {
+		return err
+	}
+
+	return nil
 }
 
-func (d Bme280) configure() {
+func (d Bme280) configure() error {
 	var data [24]byte
 	err := d.bus.ReadRegister(uint8(d.Address), BME280_REG_CALIBRATION, data[:])
 	if err != nil {
-		return
+		return err
 	}
 
 	var h1 [1]byte
 	err = d.bus.ReadRegister(uint8(d.Address), BME280_REG_CALIBRATION_H1, h1[:])
 	if err != nil {
-		return
+		return err
 	}
 
 	var h2lsb [7]byte
 	err = d.bus.ReadRegister(uint8(d.Address), BME280_REG_CALIBRATION_H2LSB, h2lsb[:])
 	if err != nil {
-		return
+		return err
 	}
 
 	d.calibrationCoefficients.t1 = readUintLE(data[0], data[1])
@@ -75,9 +90,11 @@ func (d Bme280) configure() {
 	d.bus.WriteRegister(uint8(d.Address), BME280_CTRL_HUMIDITY_ADDR, []byte{0x3f})
 	d.bus.WriteRegister(uint8(d.Address), BME280_CTRL_MEAS_ADDR, []byte{0xB7})
 	d.bus.WriteRegister(uint8(d.Address), BME280_CTRL_CONFIG, []byte{0x00})
+
+	return nil
 }
 
-func (d Bmp280) configure(standby bmp290Standby, filter bmp280Filter, temp bmp280Oversampling, pres bmp280Oversampling, mode bmp280Mode) {
+func (d Bmp280) configure(standby bmp290Standby, filter bmp280Filter, temp bmp280Oversampling, pres bmp280Oversampling, mode bmp280Mode) error {
 	d.Standby = standby
 	d.Filter = filter
 	d.Temperature = temp
@@ -96,7 +113,7 @@ func (d Bmp280) configure(standby bmp290Standby, filter bmp280Filter, temp bmp28
 	data := make([]byte, 24)
 	err := d.bus.ReadRegister(uint8(d.Address), BMP280_REG_CALI, data)
 	if err != nil {
-		return
+		return err
 	}
 
 	// Datasheet: 3.11.2 Trimming parameter readout
@@ -113,6 +130,8 @@ func (d Bmp280) configure(standby bmp290Standby, filter bmp280Filter, temp bmp28
 	d.cali.p7 = readIntLE(data[18], data[19])
 	d.cali.p8 = readIntLE(data[20], data[21])
 	d.cali.p9 = readIntLE(data[22], data[23])
+
+	return nil
 }
 
 func (d Bmp388) configure() {
@@ -127,18 +146,24 @@ func (d Ina260) configure() {
 	// Ina260 may need to be removed?
 }
 
-func (d Lis3dh) configure() {
+func (d Lis3dh) configure() error {
 	// enable all axes, normal mode
-	d.bus.WriteRegister(uint8(d.Address), LIS3DH_REG_CTRL1, []byte{0x07})
+	if err := d.bus.WriteRegister(uint8(d.Address), LIS3DH_REG_CTRL1, []byte{0x07}); err != nil {
+		return err
+	}
 
 	// 400Hz rate
 	d.SetDataRate(LIS3DH_DATARATE_400_HZ)
 
 	// High res & BDU enabled
-	d.bus.WriteRegister(uint8(d.Address), LIS3DH_REG_CTRL4, []byte{0x88})
+	if err := d.bus.WriteRegister(uint8(d.Address), LIS3DH_REG_CTRL4, []byte{0x88}); err != nil {
+		return err
+	}
 
 	// get current range
 	d.r = d.ReadRange()
+
+	return nil
 }
 
 func (d Lps22hb) configure() {
@@ -153,9 +178,9 @@ func (d Sht3x) configure() {
 	// Sht3x doesn't need a configure method??
 }
 
-func (d Vl53l1x) configure(use2v8Mode bool) bool {
+func (d Vl53l1x) configure(use2v8Mode bool) error {
 	if !d.Connected() {
-		return false
+		return errors.New("Vl53l1x device not connected.")
 	}
 	d.writeReg(VL53L1x_SOFT_RESET, 0x00)
 	time.Sleep(100 * time.Microsecond)
@@ -166,7 +191,7 @@ func (d Vl53l1x) configure(use2v8Mode bool) bool {
 	for (d.readReg(VL53L1x_FIRMWARE_SYSTEM_STATUS) & 0x01) == 0 {
 		elapsed := time.Since(start)
 		if d.timeout > 0 && uint32(elapsed.Seconds()*1000) > d.timeout {
-			return false
+			return errors.New("Connection timed out.")
 		}
 	}
 
@@ -213,7 +238,7 @@ func (d Vl53l1x) configure(use2v8Mode bool) bool {
 
 	d.writeReg16Bit(VL53L1x_ALGO_PART_TO_PART_RANGE_OFFSET_MM, d.readReg16Bit(VL53L1x_MM_CONFIG_OUTER_OFFSET_MM)*4)
 
-	return true
+	return nil
 }
 
 func timeoutMicrosecondsToMclks(timeoutMicroseconds uint32, macroPeriodMicroseconds uint32) uint32 {
