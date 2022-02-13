@@ -9,8 +9,8 @@ import (
 // structs and non-stuct types are requried by
 // the following capitalized struct
 
-type Range uint8
-type Rate uint8
+type Adxl345Range uint8
+type Adxl345Rate uint8
 
 // Internal structure for the power configuration
 type powerCtl struct {
@@ -22,64 +22,41 @@ type powerCtl struct {
 }
 
 // Internal structure for the sensor's data format configuration
-type dataFormat struct {
+type adxl345DataFormat struct {
 	selfTest    uint8
 	spi         uint8
 	intInvert   uint8
 	fullRes     uint8
 	justify     uint8
-	sensorRange Range
+	sensorRange Adxl345Range
 }
 
 // Internal structure for the sampling rate configuration
-type bwRate struct {
+type adxl345BwRate struct {
 	lowPower uint8
-	rate     Rate
+	rate     Adxl345Rate
 }
 
 type Adxl345 struct {
 	bus        drivers.I2C
 	Address    uint16
 	powerCtl   powerCtl
-	dataFormat dataFormat
-	bwRate     bwRate
+	dataFormat adxl345DataFormat
+	bwRate     adxl345BwRate
 }
 
-type Aht20 struct {
-	bus      drivers.I2C
-	Address  uint16
-	humidity uint32
-	temp     uint32
-}
-
-type InterruptMode uint8
+// amg88xx
+type Amg88xxInterruptMode uint8
 
 type Amg88xx struct {
 	bus             drivers.I2C
 	Address         uint16
 	data            []uint8
-	interruptMode   InterruptMode
+	interruptMode   Amg88xxInterruptMode
 	interruptEnable uint8
 }
 
-type gestureData struct {
-	detected    uint8
-	threshold   uint8
-	sensitivity uint8
-	gXDelta     int16
-	gYDelta     int16
-	gXPrevDelta int16
-	gYPrevDelta int16
-	received    bool
-}
-
-type Apds9960 struct {
-	bus     drivers.I2C
-	Address uint8
-	mode    uint8
-	gesture gestureData
-}
-
+// at24cx
 type At24cx struct {
 	bus               drivers.I2C
 	Address           uint16
@@ -89,17 +66,20 @@ type At24cx struct {
 	endRAMAddress     uint16
 }
 
+// bh1740
 type Bh1750 struct {
 	bus     drivers.I2C
 	Address uint16
 	mode    byte
 }
 
+// blinkm
 type Blinkm struct {
 	bus     drivers.I2C
 	Address uint16
 }
 
+// bme280
 type bme280CalibrationCoefficients struct {
 	t1 uint16
 	t2 int16
@@ -127,29 +107,7 @@ type Bme280 struct {
 	calibrationCoefficients bme280CalibrationCoefficients
 }
 
-type bmp180CalibrationCoefficients struct {
-	ac1 int16
-	ac2 int16
-	ac3 int16
-	ac4 uint16
-	ac5 uint16
-	ac6 uint16
-	b1  int16
-	b2  int16
-	mb  int16
-	mc  int16
-	md  int16
-}
-
-type bmp180OversamplingMode uint
-
-type Bmp180 struct {
-	bus                     drivers.I2C
-	Address                 uint16
-	mode                    bmp180OversamplingMode
-	calibrationCoefficients bmp180CalibrationCoefficients
-}
-
+// bpm280
 type bmp280CalibrationCoefficients struct {
 	// Temperature compensation
 	t1 uint16
@@ -184,6 +142,7 @@ type Bmp280 struct {
 	Filter      bmp280Filter
 }
 
+// bmp388
 type bmp388CalibrationCoefficients struct {
 	// Temperature compensation
 	t1 uint16
@@ -204,17 +163,17 @@ type bmp388CalibrationCoefficients struct {
 	p11 int8
 }
 
-type bmpOversampling byte
-type bmpMode byte
-type bmpOutputDataRate byte
-type bmpFilterCoefficient byte
+type bmp388Oversampling byte
+type bmp388Mode byte
+type bmp388OutputDataRate byte
+type bmp388FilterCoefficient byte
 
 type bmp388Config struct {
 	Pressure    byte
-	Temperature bmpOversampling
-	Mode        bmpMode
-	ODR         bmpOutputDataRate
-	IIR         bmpFilterCoefficient
+	Temperature bmp388Oversampling
+	Mode        bmp388Mode
+	ODR         bmp388OutputDataRate
+	IIR         bmp388FilterCoefficient
 }
 
 type Bmp388 struct {
@@ -224,44 +183,34 @@ type Bmp388 struct {
 	Config  bmp388Config
 }
 
+// ds3231
+type Ds3231Mode uint8
+
 type Ds3231 struct {
 	bus     drivers.I2C
 	Address uint16
 }
 
-type Hts221 struct {
-	bus              drivers.I2C
-	Address          uint8
-	humiditySlope    float32
-	humidityZero     float32
-	temperatureSlope float32
-	temperatureZero  float32
-}
-
+// ina260
 type Ina260 struct {
 	bus     drivers.I2C
 	Address uint16
 }
 
-type Lis2mdl struct {
-	bus        drivers.I2C
-	Address    uint8
-	PowerMode  uint8
-	SystemMode uint8
-	DataRate   uint8
-}
-
+// lis3dh
 type Lis3dh struct {
 	bus     drivers.I2C
 	Address uint16
-	r       Range
+	r       Lis3dhRange
 }
 
+// lps22hb
 type Lps22hb struct {
 	bus     drivers.I2C
 	Address uint8
 }
 
+// lsm6ds3
 type lsm6ds3AccelRange uint8
 type lsm6ds3AccelSampleRate uint8
 type lsm6ds3AccelBandwidth uint8
@@ -281,39 +230,19 @@ type Lsm6ds3 struct {
 	dataBufferTwo   []uint8
 }
 
-type Mag3110 struct {
-	bus     drivers.I2C
-	Address uint16
-}
-
-type mma8653Sensitivity uint8
-
-type Mma8653 struct {
-	bus         drivers.I2C
-	Address     uint16
-	sensitivity mma8653Sensitivity
-}
-
+// mpu6050
 type Mpu6050 struct {
 	bus     drivers.I2C
 	Address uint16
 }
 
-type Pcf8563 struct {
-	bus     drivers.I2C
-	Address uint16
-}
-
+// sht3x
 type Sht3x struct {
 	bus     drivers.I2C
 	Address uint16
 }
 
-type Tmp102 struct {
-	bus     drivers.I2C
-	address uint8
-}
-
+// vl53l1x
 type vl53l1xDistanceMode uint8
 type vl53l1xRangeStatus uint8
 

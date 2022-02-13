@@ -6,15 +6,7 @@ func (i Adxl345) configure() {
 
 }
 
-func (i Aht20) configure() {
-
-}
-
 func (i Amg88xx) configure() {
-
-}
-
-func (i Apds9960) configure() {
 
 }
 
@@ -34,10 +26,6 @@ func (i Bme280) configure() {
 
 }
 
-func (i Bmp180) configure() {
-
-}
-
 func (i Bmp280) configure() {
 
 }
@@ -50,15 +38,7 @@ func (i Ds3231) configure() {
 
 }
 
-func (i Hts221) configure() {
-
-}
-
 func (i Ina260) configure() {
-
-}
-
-func (i Lis2mdl) configure() {
 
 }
 
@@ -70,19 +50,7 @@ func (i Lps22hb) configure() {
 
 }
 
-func (i Mag3110) configure() {
-
-}
-
-func (i Mma8653) configure() {
-
-}
-
 func (i Mpu6050) configure() {
-
-}
-
-func (i Pcf8563) configure() {
 
 }
 
