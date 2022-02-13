@@ -54,6 +54,18 @@ func (d Amg88xx) SetFrameRate(framerate uint8) {
 }
 
 //-------------------------------------------------------------------------------------
+// BMP388
+func (d Bmp388) readRegister(register byte, len int) (data []byte, err error) {
+	data = make([]byte, len)
+	err = d.bus.ReadRegister(d.Address, register, data)
+	return
+}
+
+func (d Bmp388) writeRegister(register byte, data byte) error {
+	return d.bus.WriteRegister(d.Address, register, []byte{data})
+}
+
+//-------------------------------------------------------------------------------------
 // BH170
 // SetMode changes the reading mode for the sensor
 func (d Bh1750) SetMode(mode byte) {

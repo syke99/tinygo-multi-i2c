@@ -8,7 +8,7 @@ import (
 
 type device interface {
 	configure(uint, uint, uint, uint, bool)
-	connect()
+	connected() bool
 }
 
 func initializeDeviceMap(bus drivers.I2C, addr uint16) map[string]interface{} {
@@ -49,4 +49,13 @@ func NewDevice(mach *machine.I2C, deviceName string, addr uint16, bmp280Settings
 		dev.(device).configure(0, 0, 0, 0, false)
 	}
 
+	connectedBool := false
+
+	switch dev.(type) {
+	case Bme280, Bmp280, Bmp388, Lis3dh, Lps22hb, Mpu6050:
+		connectedBool = dev.(device).connected()
+		if !connectedBool {
+			print("I will need to implement error handling and it will go here.")
+		}
+	}
 }

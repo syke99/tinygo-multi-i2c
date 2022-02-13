@@ -2,62 +2,45 @@ package multi
 
 // TODO: flesh out connect methods for each device
 
-func (i Adxl345) connect() error {
+func (d Bme280) connected() bool {
+	data := []byte{0}
+	d.bus.ReadRegister(uint8(d.Address), BME280_WHO_AM_I, data)
+	return data[0] == BME280_CHIP_ID
+}
+
+func (d Bmp280) connected() bool {
+	data := make([]byte, 1)
+	d.bus.ReadRegister(uint8(d.Address), BMP280_REG_ID, data)
+	return data[0] == BMP280_CHIP_ID
+}
+
+func (d Bmp388) connected() bool {
+	data, err := d.readRegister(BMP388_RegChipId, 1)
+	return err == nil && data[0] == BMP388_ChipId // returns true if i2c comm was good and response equals 0x50
+}
+
+func (i Ina260) connected() error {
+	// Ina260 may need to be removed?
 	return nil
 }
 
-func (i Amg88xx) connect() error {
-	return nil
+func (d Lis3dh) connected() bool {
+	data := []byte{0}
+	err := d.bus.ReadRegister(uint8(d.Address), LIS3DH_WHO_AM_I, data)
+	if err != nil {
+		return false
+	}
+	return data[0] == 0x33
 }
 
-func (i At24cx) connect() error {
-	return nil
+func (d Lps22hb) connected() bool {
+	data := []byte{0}
+	d.bus.ReadRegister(d.Address, LPS22HB_WHO_AM_I_REG, data)
+	return data[0] == 0xB1
 }
 
-func (i Bh1750) connect() error {
-	return nil
-}
-
-func (i Blinkm) connect() error {
-	return nil
-}
-
-func (i Bme280) connect() error {
-	return nil
-}
-
-func (i Bmp280) connect() error {
-	return nil
-}
-
-func (i Bmp388) connect() error {
-	return nil
-}
-
-func (i Ds3231) connect() error {
-	return nil
-}
-
-func (i Ina260) connect() error {
-	return nil
-}
-
-func (i Lis3dh) connect() error {
-	return nil
-}
-
-func (i Lps22hb) connect() error {
-	return nil
-}
-
-func (i Mpu6050) connect() error {
-	return nil
-}
-
-func (i Sht3x) connect() error {
-	return nil
-}
-
-func (i Vl53l1x) connect() error {
-	return nil
+func (d Mpu6050) connected() bool {
+	data := []byte{0}
+	d.bus.ReadRegister(uint8(d.Address), MPU6050_WHO_AM_I, data)
+	return data[0] == 0x68
 }
