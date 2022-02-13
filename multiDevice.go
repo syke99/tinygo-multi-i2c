@@ -7,7 +7,7 @@ import (
 )
 
 type device interface {
-	configure()
+	configure(uint, uint, uint, uint, bool)
 	connect()
 }
 
@@ -35,10 +35,18 @@ func initializeDeviceMap(bus drivers.I2C, addr uint16) map[string]interface{} {
 	return deviceMap
 }
 
-func NewDevice(mach *machine.I2C, deviceName string, addr uint16) {
+func NewDevice(mach *machine.I2C, deviceName string, addr uint16, bmp280Settings []uint, vl53l1xBool bool) {
 	deviceMap := initializeDeviceMap(mach, addr)
 
 	dev := deviceMap[deviceName]
 
-	dev.(device).configure()
+	switch dev.(type) {
+	case Bme280:
+		dev.(device).configure(bmp280Settings[0], bmp280Settings[1], bmp280Settings[2], bmp280Settings[3], false)
+	case Vl53l1x:
+		dev.(device).configure(0, 0, 0, 0, vl53l1xBool)
+	default:
+		dev.(device).configure(0, 0, 0, 0, false)
+	}
+
 }

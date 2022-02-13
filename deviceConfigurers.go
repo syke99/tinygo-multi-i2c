@@ -77,7 +77,7 @@ func (d Bme280) configure() {
 	d.bus.WriteRegister(uint8(d.Address), BME280_CTRL_CONFIG, []byte{0x00})
 }
 
-func (d Bmp280) Configure(standby bmp290Standby, filter bmp280Filter, temp bmp280Oversampling, pres bmp280Oversampling, mode bmp280Mode) {
+func (d Bmp280) configure(standby bmp290Standby, filter bmp280Filter, temp bmp280Oversampling, pres bmp280Oversampling, mode bmp280Mode) {
 	d.Standby = standby
 	d.Filter = filter
 	d.Temperature = temp
@@ -153,7 +153,7 @@ func (d Sht3x) configure() {
 	// Sht3x doesn't need a configure method??
 }
 
-func (d Vl53l1x) Configure(use2v8Mode bool) bool {
+func (d Vl53l1x) configure(use2v8Mode bool) bool {
 	if !d.Connected() {
 		return false
 	}
