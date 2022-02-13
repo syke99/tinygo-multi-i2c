@@ -13,7 +13,7 @@ type Adxl345Range uint8
 type Adxl345Rate uint8
 
 // Internal structure for the power configuration
-type powerCtl struct {
+type adxl345PowerCtl struct {
 	link      uint8
 	autoSleep uint8
 	measure   uint8
@@ -40,7 +40,7 @@ type adxl345BwRate struct {
 type Adxl345 struct {
 	bus        drivers.I2C
 	Address    uint16
-	powerCtl   powerCtl
+	powerCtl   adxl345PowerCtl
 	dataFormat adxl345DataFormat
 	bwRate     adxl345BwRate
 }

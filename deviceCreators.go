@@ -12,11 +12,11 @@ func newAdx1345(bus drivers.I2C, addr uint16) interface{} {
 	if addr != 0 {
 		return Adxl345{
 			bus: bus,
-			powerCtl: powerCtl{
+			powerCtl: adxl345PowerCtl{
 				measure: 1,
 			},
 			dataFormat: adxl345DataFormat{
-				// sensorRange: RANGE_2G,
+				sensorRange: ADX1345_RANGE_2G,
 			},
 			bwRate: adxl345BwRate{
 				lowPower: 1,
@@ -27,11 +27,11 @@ func newAdx1345(bus drivers.I2C, addr uint16) interface{} {
 	} else {
 		return Adxl345{
 			bus: bus,
-			powerCtl: powerCtl{
+			powerCtl: adxl345PowerCtl{
 				measure: 1,
 			},
 			dataFormat: adxl345DataFormat{
-				// sensorRange: RANGE_2G,
+				sensorRange: ADX1345_RANGE_2G,
 			},
 			bwRate: adxl345BwRate{
 				lowPower: 1,
