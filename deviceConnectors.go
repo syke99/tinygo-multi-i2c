@@ -1,6 +1,6 @@
 package multi
 
-// TODO: flesh out configuration methods for each device
+// TODO: flesh out connect methods for each device
 
 func (i Adxl345) connect() error {
 	return nil
