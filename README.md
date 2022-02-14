@@ -37,11 +37,11 @@ $ go get github.com/syke99/tinygo-multi-i2c
 Then you can import the package in any go file you'd like
 
 ```go
-import multi (
+import (
 
     "machine"
 
-    "github.com/syke99/go-c2dmc"
+     multi "github.com/syke99/go-c2dmc"
 )
 ```
 
