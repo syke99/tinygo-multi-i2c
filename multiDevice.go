@@ -24,7 +24,6 @@ func initializeDeviceMap(bus drivers.I2C, addr uint16) map[string]interface{} {
 	deviceMap["bme280"] = newBme280(bus, addr)
 	deviceMap["bmp280"] = newBmp280(bus, addr)
 	deviceMap["ds3231"] = newDs3231(bus, addr)
-	deviceMap["ina260"] = newIna260(bus, addr)
 	deviceMap["lis3dh"] = newLis3dh(bus, addr)
 	deviceMap["lps22hb"] = newLps22hb(bus, addr)
 	deviceMap["mpu6050"] = newMpu6050(bus, addr)
@@ -119,14 +118,6 @@ func NewDevice(mach *machine.I2C, deviceName string, addr uint16, bmp280Settings
 			newDeviceError = errors.New(fmt.Sprintf("Cannot set created device to type: %T. Device creation failed.", dev.(Ds3231)))
 		} else {
 			dvc.addDs3231(value)
-		}
-	case Ina260:
-		value, ok := dev.(Ina260)
-
-		if !ok {
-			newDeviceError = errors.New(fmt.Sprintf("Cannot set created device to type: %T. Device creation failed.", dev.(Ina260)))
-		} else {
-			dvc.addIna260(value)
 		}
 	case Lis3dh:
 		value, ok := dev.(Lis3dh)
