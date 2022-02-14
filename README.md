@@ -64,7 +64,13 @@ Initialize your I2C bus by initializing and configuring an machine.I2C0 to be pa
 Declare a variable to hold the returned Devices struct that will be used to access the device you create, and then call multi.NewDevices(params) and pass in your parameters, the first being the name of the device you would like to create in all lowercase. Ex:
 
 ```go
-devices, error := multi.NewDevice(i2c, "bmp280", 0, 0, 0, 0, 0)
+// in this case, we're going to create a BMP280, but this device will
+// require inputs instead of 0's
+bmp := [5]uint{0,0,0,0,0}
+
+// the default address for a BMP280 is 0x76, so to dynamically set it, we pass in the address, i.e.: 0x77
+// if you want to use the default address of 0x76, you can just pass in a 0 as the address
+devices, error := multi.NewDevice(i2c, "bmp280", 0x77, bmp)
 ```
 
 **NOTE:** if you are setting up a BMP280 device, you must provide 5 arguments (of type uint) to the NewDevice method to configure the BMP280's Standby, Filter, Temperature, Pressure, and Mode. If not, simply pass in all 0's. This example just uses all 0's with a BMP280 for brevity's sake.
