@@ -64,13 +64,14 @@ Initialize your I2C bus by initializing and configuring an machine.I2C0 to be pa
 Declare a variable to hold the returned Devices struct that will be used to access the device you create, and then call multi.NewDevices(params) and pass in your parameters, the first being the name of the device you would like to create in all lowercase. Ex:
 
 ```go
-// in this case, we're going to create a BMP280, but this device will
-// require inputs instead of 0's
-bmp := [5]uint{0,0,0,0,0}
+// since this isn't a BMP280, we need to just pass in a slice of uint's that are all 0
+// a BMP280 needs 5 uint's passed to it for its Standby, Filter, Temperature, Pressure, and Mode.
+b := [5]uint{0,0,0,0,0}
 
-// the default address for a BMP280 is 0x76, so to dynamically set it, we pass in the address, i.e.: 0x77
+// the default address for a BLINKM is 0x09, so to dynamically set it, we pass in the address, i.e.: 
+// 0x00 in this example
 // if you want to use the default address of 0x76, you can just pass in a 0 as the address
-devices, error := multi.NewDevice(i2c, "bmp280", 0x77, bmp)
+devices, error := multi.NewDevice(i2c, "blinkm", 0x00, b)
 ```
 
 **NOTE:** if you are setting up a BMP280 device, you must provide 5 arguments (of type uint) to the NewDevice method to configure the BMP280's Standby, Filter, Temperature, Pressure, and Mode. If not, simply pass in all 0's. This example just uses all 0's with a BMP280 for brevity's sake.
@@ -78,7 +79,7 @@ devices, error := multi.NewDevice(i2c, "bmp280", 0x77, bmp)
 After that, you can use the variable you declared, followed by the name of the device you just created using dot notation, followed by the function you would like to use. (A list of available devices can be found above. Just change any letters to their respective lowercase.) Ex:
 
 ```go
-pressure, error := devices.bmp.ReadPressure()
+error := devices.blinkm.setRGB
 ```
 
 This process can be repeated by simply repeating the line to create a new device, just with a new name of a variable to hold the Devices struct for each device you wish to create. Ex:
