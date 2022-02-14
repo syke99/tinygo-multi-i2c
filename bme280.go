@@ -2,8 +2,6 @@ package multi
 
 import (
 	"math"
-
-	"tinygo.org/x/drivers"
 )
 
 type bme280CalibrationCoefficients struct {
@@ -28,12 +26,12 @@ type bme280CalibrationCoefficients struct {
 }
 
 type Bme280 struct {
-	bus                     drivers.I2C
+	bus                     I2C
 	Address                 uint16
 	calibrationCoefficients bme280CalibrationCoefficients
 }
 
-func newBme280(bus drivers.I2C, addr uint16) interface{} {
+func newBme280(bus I2C, addr uint16) interface{} {
 	if addr != 0 {
 		return Bme280{
 			bus:     bus,

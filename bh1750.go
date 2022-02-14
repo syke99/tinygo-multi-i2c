@@ -2,17 +2,15 @@ package multi
 
 import (
 	"time"
-
-	"tinygo.org/x/drivers"
 )
 
 type Bh1750 struct {
-	bus     drivers.I2C
+	bus     I2C
 	Address uint16
 	mode    byte
 }
 
-func newBh1750(bus drivers.I2C, addr uint16) interface{} {
+func newBh1750(bus I2C, addr uint16) interface{} {
 	if addr != 0 {
 		return Bh1750{
 			bus:     bus,

@@ -4,8 +4,6 @@ import (
 	"errors"
 	"fmt"
 	"machine"
-
-	"tinygo.org/x/drivers"
 )
 
 type device interface {
@@ -13,7 +11,7 @@ type device interface {
 	connected() bool
 }
 
-func initializeDeviceMap(bus drivers.I2C, addr uint16) map[string]interface{} {
+func initializeDeviceMap(bus I2C, addr uint16) map[string]interface{} {
 
 	deviceMap := make(map[string]interface{})
 

@@ -2,8 +2,6 @@ package multi
 
 import (
 	"time"
-
-	"tinygo.org/x/drivers"
 )
 
 type bmp280CalibrationCoefficients struct {
@@ -30,7 +28,7 @@ type bmp290Standby uint
 type bmp280Filter uint
 
 type Bmp280 struct {
-	bus         drivers.I2C
+	bus         I2C
 	Address     uint16
 	cali        bmp280CalibrationCoefficients
 	Temperature bmp280Oversampling
@@ -40,7 +38,7 @@ type Bmp280 struct {
 	Filter      bmp280Filter
 }
 
-func newBmp280(bus drivers.I2C, addr uint16) interface{} {
+func newBmp280(bus I2C, addr uint16) interface{} {
 	if addr != 0 {
 		return Bmp280{
 			bus:     bus,

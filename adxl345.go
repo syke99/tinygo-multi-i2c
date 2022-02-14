@@ -1,7 +1,5 @@
 package multi
 
-import "tinygo.org/x/drivers"
-
 type Adxl345Range uint8
 type Adxl345Rate uint8
 
@@ -31,14 +29,14 @@ type adxl345BwRate struct {
 }
 
 type Adxl345 struct {
-	bus        drivers.I2C
+	bus        I2C
 	Address    uint16
 	powerCtl   adxl345PowerCtl
 	dataFormat adxl345DataFormat
 	bwRate     adxl345BwRate
 }
 
-func newAdx1345(bus drivers.I2C, addr uint16) interface{} {
+func newAdx1345(bus I2C, addr uint16) interface{} {
 	if addr != 0 {
 		return Adxl345{
 			bus: bus,

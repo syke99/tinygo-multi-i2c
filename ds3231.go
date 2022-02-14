@@ -2,18 +2,16 @@ package multi
 
 import (
 	"time"
-
-	"tinygo.org/x/drivers"
 )
 
 type Ds3231Mode uint8
 
 type Ds3231 struct {
-	bus     drivers.I2C
+	bus     I2C
 	Address uint16
 }
 
-func newDs3231(bus drivers.I2C, addr uint16) interface{} {
+func newDs3231(bus I2C, addr uint16) interface{} {
 	if addr != 0 {
 		return Ds3231{
 			bus:     bus,

@@ -1,13 +1,11 @@
 package multi
 
-import "tinygo.org/x/drivers"
-
 type Lps22hb struct {
-	bus     drivers.I2C
+	bus     I2C
 	Address uint8
 }
 
-func newLps22hb(bus drivers.I2C, addr uint16) interface{} {
+func newLps22hb(bus I2C, addr uint16) interface{} {
 	if addr != 0 {
 		return Lps22hb{
 			bus:     bus,

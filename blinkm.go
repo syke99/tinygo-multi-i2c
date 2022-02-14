@@ -1,13 +1,11 @@
 package multi
 
-import "tinygo.org/x/drivers"
-
 type Blinkm struct {
-	bus     drivers.I2C
+	bus     I2C
 	Address uint16
 }
 
-func newBlinkm(bus drivers.I2C, addr uint16) interface{} {
+func newBlinkm(bus I2C, addr uint16) interface{} {
 	if addr != 0 {
 		return Blinkm{
 			bus:     bus,

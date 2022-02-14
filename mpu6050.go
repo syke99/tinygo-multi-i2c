@@ -1,13 +1,11 @@
 package multi
 
-import "tinygo.org/x/drivers"
-
 type Mpu6050 struct {
-	bus     drivers.I2C
+	bus     I2C
 	Address uint16
 }
 
-func newMpu6050(bus drivers.I2C, addr uint16) interface{} {
+func newMpu6050(bus I2C, addr uint16) interface{} {
 	if addr != 0 {
 		return Mpu6050{
 			bus:     bus,

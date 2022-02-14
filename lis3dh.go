@@ -1,17 +1,15 @@
 package multi
 
-import "tinygo.org/x/drivers"
-
 type Lis3dhRange uint8
 type Lis3dhRate uint8
 
 type Lis3dh struct {
-	bus     drivers.I2C
+	bus     I2C
 	Address uint16
 	r       Lis3dhRange
 }
 
-func newLis3dh(bus drivers.I2C, addr uint16) interface{} {
+func newLis3dh(bus I2C, addr uint16) interface{} {
 	if addr != 0 {
 		return Lis3dh{
 			bus:     bus,

@@ -2,21 +2,19 @@ package multi
 
 import (
 	"time"
-
-	"tinygo.org/x/drivers"
 )
 
 type Amg88xxInterruptMode uint8
 
 type Amg88xx struct {
-	bus             drivers.I2C
+	bus             I2C
 	Address         uint16
 	data            []uint8
 	interruptMode   Amg88xxInterruptMode
 	interruptEnable uint8
 }
 
-func newAmg88xx(bus drivers.I2C, addr uint16) interface{} {
+func newAmg88xx(bus I2C, addr uint16) interface{} {
 	if addr != 0 {
 		return Amg88xx{
 			bus:     bus,
