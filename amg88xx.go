@@ -6,8 +6,6 @@ import (
 	"tinygo.org/x/drivers"
 )
 
-//-------------------------------------------------------------------------------------
-// AMG88XX
 type Amg88xxInterruptMode uint8
 
 type Amg88xx struct {
@@ -18,8 +16,6 @@ type Amg88xx struct {
 	interruptEnable uint8
 }
 
-//-------------------------------------------------------------------------------------
-// AMG88XX
 func newAmg88xx(bus drivers.I2C, addr uint16) interface{} {
 	if addr != 0 {
 		return Amg88xx{
@@ -34,8 +30,6 @@ func newAmg88xx(bus drivers.I2C, addr uint16) interface{} {
 	}
 }
 
-//-------------------------------------------------------------------------------------
-// AMG88XX
 func (d Amg88xx) configure() error {
 	d.data = make([]uint8, 128)
 
@@ -47,9 +41,6 @@ func (d Amg88xx) configure() error {
 
 	return nil
 }
-
-//-------------------------------------------------------------------------------------
-// AMG88XX
 
 // ReadPixels returns the 64 values (8x8 grid) of the sensor converted to  millicelsius
 func (d Amg88xx) ReadPixels(buffer *[64]int16) {
