@@ -2,6 +2,7 @@ package multi
 
 import (
 	"errors"
+	"fmt"
 	"machine"
 
 	"tinygo.org/x/drivers"
@@ -36,7 +37,7 @@ func initializeDeviceMap(bus drivers.I2C, addr uint16) map[string]interface{} {
 	return deviceMap
 }
 
-func NewDevice(mach *machine.I2C, deviceName string, addr uint16, bmp280Settings []uint, vl53l1xBool bool) (interface{}, error) {
+func NewDevice(mach *machine.I2C, deviceName string, addr uint16, bmp280Settings []uint, vl53l1xBool bool) (Devices, error) {
 
 	var newDeviceError error
 
@@ -63,5 +64,140 @@ func NewDevice(mach *machine.I2C, deviceName string, addr uint16, bmp280Settings
 		}
 	}
 
-	return dev, newDeviceError
+	var dvc Devices
+
+	switch dev.(type) {
+	case Adxl345:
+		value, ok := dev.(Adxl345)
+
+		if !ok {
+			newDeviceError = errors.New(fmt.Sprintf("Cannot set created device to type: %T. Device creation failed.", dev.(Adxl345)))
+		} else {
+			dvc.addAdxl1345(value)
+		}
+	case Amg88xx:
+		value, ok := dev.(Amg88xx)
+
+		if !ok {
+			newDeviceError = errors.New(fmt.Sprintf("Cannot set created device to type: %T. Device creation failed.", dev.(Amg88xx)))
+		} else {
+			dvc.addAmg88xx(value)
+		}
+	case At24cx:
+		value, ok := dev.(At24cx)
+
+		if !ok {
+			newDeviceError = errors.New(fmt.Sprintf("Cannot set created device to type: %T. Device creation failed.", dev.(At24cx)))
+		} else {
+			dvc.addAt24cx(value)
+		}
+	case Bh1750:
+		value, ok := dev.(Bh1750)
+
+		if !ok {
+			newDeviceError = errors.New(fmt.Sprintf("Cannot set created device to type: %T. Device creation failed.", dev.(Bh1750)))
+		} else {
+			dvc.addBh1750(value)
+		}
+	case Blinkm:
+		value, ok := dev.(Blinkm)
+
+		if !ok {
+			newDeviceError = errors.New(fmt.Sprintf("Cannot set created device to type: %T. Device creation failed.", dev.(Blinkm)))
+		} else {
+			dvc.addBlinkm(value)
+		}
+	case Bme280:
+		value, ok := dev.(Bme280)
+
+		if !ok {
+			newDeviceError = errors.New(fmt.Sprintf("Cannot set created device to type: %T. Device creation failed.", dev.(Bme280)))
+		} else {
+			dvc.addBme280(value)
+		}
+	case Bmp280:
+		value, ok := dev.(Bmp280)
+
+		if !ok {
+			newDeviceError = errors.New(fmt.Sprintf("Cannot set created device to type: %T. Device creation failed.", dev.(Bmp280)))
+		} else {
+			dvc.addBmp280(value)
+		}
+	case Bmp388:
+		value, ok := dev.(Bmp388)
+
+		if !ok {
+			newDeviceError = errors.New(fmt.Sprintf("Cannot set created device to type: %T. Device creation failed.", dev.(Bmp388)))
+		} else {
+			dvc.addBmp388(value)
+		}
+	case Ds3231:
+		value, ok := dev.(Ds3231)
+
+		if !ok {
+			newDeviceError = errors.New(fmt.Sprintf("Cannot set created device to type: %T. Device creation failed.", dev.(Ds3231)))
+		} else {
+			dvc.addDs3231(value)
+		}
+	case Ina260:
+		value, ok := dev.(Ina260)
+
+		if !ok {
+			newDeviceError = errors.New(fmt.Sprintf("Cannot set created device to type: %T. Device creation failed.", dev.(Ina260)))
+		} else {
+			dvc.addIna260(value)
+		}
+	case Lis3dh:
+		value, ok := dev.(Lis3dh)
+
+		if !ok {
+			newDeviceError = errors.New(fmt.Sprintf("Cannot set created device to type: %T. Device creation failed.", dev.(Lis3dh)))
+		} else {
+			dvc.addLis3dh(value)
+		}
+	case Lps22hb:
+		value, ok := dev.(Lps22hb)
+
+		if !ok {
+			newDeviceError = errors.New(fmt.Sprintf("Cannot set created device to type: %T. Device creation failed.", dev.(Lps22hb)))
+		} else {
+			dvc.addLps22hb(value)
+		}
+	case Lsm6ds3:
+		value, ok := dev.(Lsm6ds3)
+
+		if !ok {
+			newDeviceError = errors.New(fmt.Sprintf("Cannot set created device to type: %T. Device creation failed.", dev.(Lsm6ds3)))
+		} else {
+			dvc.addLsm6ds3(value)
+		}
+	case Mpu6050:
+		value, ok := dev.(Mpu6050)
+
+		if !ok {
+			newDeviceError = errors.New(fmt.Sprintf("Cannot set created device to type: %T. Device creation failed.", dev.(Mpu6050)))
+		} else {
+			dvc.addMpu6050(value)
+		}
+	case Sht3x:
+		value, ok := dev.(Sht3x)
+
+		if !ok {
+			newDeviceError = errors.New(fmt.Sprintf("Cannot set created device to type: %T. Device creation failed.", dev.(Sht3x)))
+		} else {
+			dvc.addSht3x(value)
+		}
+	case Vl53l1x:
+		value, ok := dev.(Vl53l1x)
+
+		if !ok {
+			newDeviceError = errors.New(fmt.Sprintf("Cannot set created device to type: %T. Device creation failed.", dev.(Vl53l1x)))
+		} else {
+			dvc.addVl53l1x(value)
+		}
+	default:
+		newDeviceError = errors.New("Device creation failure.")
+	}
+
+	return dvc, newDeviceError
 }
