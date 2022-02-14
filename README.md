@@ -24,7 +24,7 @@ tinygo-multi-2c was built for the purpose of simplifying the process of setting 
 
 What problem does tinygo-multi-i2c solve?
 =====
-While using the pre-written drivers from TinyGo is extremely useful, it takes a handful of lines to set up one device. And that's only if you're using the default address that specifc device uses. Whereas using the tinygo-multi-i2c package, you can create a device, configure it, set the address specifically to the one you want, and test the connection for that device all in as little as two lines after initializing the your I2C bus, allowing for cleaner, more concise code. Initializing the I2C bus will be the same as doing so with the drivers package from TinyGo (which tinygo-multi-i2c provies; tinygo-multi-i2c is essentially a wrapper of [tinygo-org/drivers](https://github.com/tinygo-org/drivers)). The error returned, if nil isn't returned, will help point you in the direction of where your device set-up is failing to allow for smooth debugging.
+While using the pre-written drivers from TinyGo is extremely useful, it takes a handful of lines to set up one device. And that's only if you're using the default address that specifc device uses. Whereas using the tinygo-multi-i2c package, you can create a device, configure it, set the address specifically to the one you want, and test the connection for that device all in as little as two lines after initializing the your I2C bus, allowing for cleaner, more concise code. Initializing the I2C bus; which will be the same as doing so with the drivers package from TinyGo (an example of can be found on TinyGo's page for Divers [here](https://github.com/tinygo-org/drivers); there's also an example down below). The error returned, if nil isn't returned, will help point you in the direction of where your device set-up is failing to allow for smooth debugging.
 
 How do I use tinygo-multi-i2c?
 =====
@@ -37,15 +37,34 @@ $ go get github.com/syke99/tinygo-multi-i2c
 Then you can import the package in any go file you'd like
 
 ```go
-import multi "github.com/syke99/go-c2dmc"
+import multi (
+
+    "machine"
+
+    "github.com/syke99/go-c2dmc"
+)
 ```
 
 ### Basic usage
 
-Declare a variable to hold the returned Devices struct that will be used to access the device you create, and then call multi.NewDevices(params) and pass in your parameters, the first being the name of the device you would like to create in all lowercase.
+Initialize your I2C bus by initializing and configuring an machine.I2C0 to be passed into the NewDevice() method. Ex:
 
 ```go
-devices, error := multi.NewDevice("bmp280", 0, 0, 0, 0, 0)
+    i2c := machine.I2C0
+    err := i2c.Configure(machine.I2CConfig{
+        SCL: machine.P0_30,
+        SDA: machine.P0_31,
+    })
+    if err != nil {
+        println("could not configure I2C:", err)
+        return
+    }
+```
+
+Declare a variable to hold the returned Devices struct that will be used to access the device you create, and then call multi.NewDevices(params) and pass in your parameters, the first being the name of the device you would like to create in all lowercase. Ex:
+
+```go
+devices, error := multi.NewDevice(i2c, "bmp280", 0, 0, 0, 0, 0)
 ```
 
 **NOTE:** if you are setting up a BMP280 device, you must provide 5 arguments (of type uint) to the NewDevice method to configure the BMP280's Standby, Filter, Temperature, Pressure, and Mode. If not, simply pass in all 0's. This example just uses all 0's with a bmp280 for brevity's sake.
@@ -60,13 +79,13 @@ This process can be repeated by simply repeating the line to create a new device
 
 ```go
 // Device 1, a BMP280 sensor
-d1, error := multi.NewDevice("bmp280", 0, 0, 0, 0, 0)
+d1, error := multi.NewDevice(i2c, "bmp280", 0, 0, 0, 0, 0)
 
 // Device 2, an MPU6050 motion tracking device
-d2, error := multi.NewDevice("mpu6050", 0, 0, 0, 0, 0)
+d2, error := multi.NewDevice(i2c, "mpu6050", 0, 0, 0, 0, 0)
 
 // Device 3, a BH1750 light sensor
-d3, error := multi.NewDevice("bh1750", 0, 0,0,0,0)
+d3, error := multi.NewDevice(i2c, "bh1750", 0, 0,0,0,0)
 
 pressure, error := d1.bmp280.ReadPressure()
 // handle error and/or using pressure reading value here
