@@ -48,7 +48,7 @@ Declare a variable to hold the returned Devices struct that will be used to acce
 devices, error := multi.NewDevice("bmp280", 0, 0, 0, 0, 0)
 ```
 
-**NOTE:** if you are setting up a BMP280 device, you must provide 5 arguments (of type uint) to the NewDevice method to configure the BMP280's Standby, Filter, Temperature, Pressure, and Mode. If not, simply pass in all 0's. This example just uses all 0's with a bmp280 for brevity's sake.
+**NOTE:** if you are setting up a BMP280 device, you must provide 5 arguments (of type uint) to the NewDevice method to configure the BMP280's Standby, Filter, Temperature, Pressure, and Mode. If not, simply pass in all 0's. This example just uses all 0's with a BMP280 for brevity's sake.
 
 After that, you can use the variable you declared, followed by the name of the device you just created using dot notation, followed by the function you would like to use. (A list of available devices can be found above. Just change any letters to their respective lowercase.) Ex:
 
