@@ -85,16 +85,18 @@ error := devices.blinkm.FadeToRGB()
 This process can be repeated by simply repeating the line to create a new device, just with a new name of a variable to hold the Devices struct for each device you wish to create. Ex:
 
 ```go
-// Device 1, a BMP280 sensor
-d1, error := multi.NewDevice(i2c, "bmp280", 0, 0, 0, 0, 0)
+// These devices are using the default addresses, so passing in 0, and using the []uint, b we initialized above since none of them are a BMP280
+
+// Device 1, a BLINKM RGB light
+d1, error := multi.NewDevice(i2c, "blinkm", 0, b)
 
 // Device 2, an MPU6050 motion tracking device
-d2, error := multi.NewDevice(i2c, "mpu6050", 0, 0, 0, 0, 0)
+d2, error := multi.NewDevice(i2c, "mpu6050", 0, b)
 
 // Device 3, a BH1750 light sensor
-d3, error := multi.NewDevice(i2c, "bh1750", 0, 0,0,0,0)
+d3, error := multi.NewDevice(i2c, "bh1750", 0, b)
 
-pressure, error := d1.bmp280.ReadPressure()
+error := d1.bmp280.FadeToRGB()
 // handle error and/or using pressure reading value here
 
 acceleration, error := d2.mpu6050.ReadAcceleration()
