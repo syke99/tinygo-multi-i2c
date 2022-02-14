@@ -220,88 +220,6 @@ const (
 	BMP280_FILTER_16X
 )
 
-// BMP388 registers
-const Bmp388Address byte = 0x77
-
-const (
-	BMP388_RegChipId  byte = 0x00 // useful for checking the connection
-	BMP388_RegCali    byte = 0x31 // pressure & temperature compensation calibration coefficients
-	BMP388_RegPress   byte = 0x04 // start of pressure data registers
-	BMP388_RegTemp    byte = 0x07 // start of temperature data registers
-	BMP388_RegPwrCtrl byte = 0x1B // measurement mode & pressure/temperature sensor power register
-	BMP388_RegOSR     byte = 0x1C // oversampling settings register
-	BMP388_RegODR     byte = 0x1D //
-	BMP388_RegCmd     byte = 0x7E // miscellaneous command register
-	BMP388_RegStat    byte = 0x03 // sensor status register
-	BMP388_RegErr     byte = 0x02 // error status register
-	BMP388_RegIIR     byte = 0x1F
-)
-
-const (
-	BMP388_ChipId    byte = 0x50 // correct response if reading from chip id register
-	BMP388_PwrPress  byte = 0x01 // power on pressure sensor
-	BMP388_PwrTemp   byte = 0x02 // power on temperature sensor
-	BMP388_SoftReset byte = 0xB6 // command to reset all user configuration
-	BMP388_DRDYPress byte = 0x20 // for checking if pressure data is ready
-	BMP388_DRDYTemp  byte = 0x40 // for checking if pressure data is ready
-)
-
-// The difference between forced and normal mode is the bmp388 goes to sleep after taking a measurement in forced mode.
-// Set it to forced if you intend to take measurements sporadically and want to save power. The driver will handle
-// waking the sensor up when the sensor is in forced mode.
-const (
-	BMP388_Normal bmp388Mode = 0x30
-	BMP388_Forced bmp388Mode = 0x16
-	BMP388_Sleep  bmp388Mode = 0x00
-)
-
-// Increasing sampling rate increases precision but also the wait time for measurements. The datasheet has a table of
-// suggested values for oversampling, output data rates, and iir filter coefficients by use case.
-const (
-	BMP388_Sampling1X bmp388Oversampling = iota
-	BMP388_Sampling2X
-	BMP388_Sampling4X
-	BMP388_Sampling8X
-	BMP388_Sampling16X
-	BMP388_Sampling32X
-)
-
-// Output data rates in Hz. If increasing the sampling rates you need to decrease the output data rates, else the bmp388
-// will freeze and Configure() will return a configuration error message. In that case keep decreasing the data rate
-// until the bmp is happy
-const (
-	BMP388_Odr200 bmp388OutputDataRate = iota
-	BMP388_Odr100
-	BMP388_Odr50
-	BMP388_Odr25
-	BMP388_Odr12p5
-	BMP388_Odr6p25
-	BMP388_Odr3p1
-	BMP388_Odr1p5
-	BMP388_Odr0p78
-	BMP388_Odr0p39
-	BMP388_Odr0p2
-	BMP388_Odr0p1
-	BMP388_Odr0p05
-	BMP388_Odr0p02
-	BMP388_Odr0p01
-	BMP388_Odr0p006
-	BMP388_Odr0p003
-	BMP388_Odr0p0015
-)
-
-// IIR filter coefficients, higher values means steadier measurements but slower reaction times
-const (
-	BMP388_Coeff0 bmp388FilterCoefficient = iota
-	BMP388_Coeff1
-	BMP388_Coeff3
-	BMP388_Coeff7
-	BMP388_Coeff15
-	BMP388_Coeff31
-	BMP388_Coeff63
-	BMP388_Coeff127
-)
-
 // DS3231 registers
 const Ds3231Address = 0x68
 
@@ -362,38 +280,6 @@ const (
 	INA250_REG_DIE_ID     = 0xFF
 )
 
-// Well-Known Values
-const (
-	INA250_MANF_ID        = 0x5449 // TI
-	INA250_DEVICE_ID      = 0x2270 // 227h
-	INA250_DEVICE_ID_MASK = 0xFFF0
-
-	INA250_AVGMODE_1    = 0
-	INA250_AVGMODE_4    = 1
-	INA250_AVGMODE_16   = 2
-	INA250_AVGMODE_64   = 3
-	INA250_AVGMODE_128  = 4
-	INA250_AVGMODE_256  = 5
-	INA250_AVGMODE_512  = 6
-	INA250_AVGMODE_1024 = 7
-
-	INA250_CONVTIME_140USEC  = 0
-	INA250_CONVTIME_204USEC  = 1
-	INA250_CONVTIME_332USEC  = 2
-	INA250_CONVTIME_588USEC  = 3
-	INA250_CONVTIME_1100USEC = 4 // 1.1 ms
-	INA250_CONVTIME_2116USEC = 5 // 2.1 ms
-	INA250_CONVTIME_4156USEC = 6 // 4.2 ms
-	INA250_CONVTIME_8244USEC = 7 // 8.2 ms
-
-	INA250_MODE_CONTINUOUS = 0x4
-	INA250_MODE_TRIGGERED  = 0x0
-	INA250_MODE_VOLTAGE    = 0x2
-	INA250_MODE_NO_VOLTAGE = 0x0
-	INA250_MODE_CURRENT    = 0x1
-	INA250_MODE_NO_CURRENT = 0x0
-)
-
 // LIS3DH registers
 const (
 	Lis3dhAddress0 = 0x18 // SA0 is low
@@ -442,8 +328,6 @@ const (
 	LIS3DH_REG_ACTDUR    = 0x3F
 )
 
-type Lis3dhRange uint8
-
 const (
 	LIS3DH_RANGE_16_G Lis3dhRange = 3 // +/- 16g
 	LIS3DH_RANGE_8_G              = 2 // +/- 8g
@@ -477,86 +361,6 @@ const (
 	LPS22HB_STATUS_REG    = 0x27
 	LPS22HB_PRESS_OUT_REG = 0x28
 	LPS22HB_TEMP_OUT_REG  = 0x2B
-)
-
-// LSM6DS3 registers
-const Lsm6ds3Address = 0x6A
-
-const (
-	LSM6DS3_WHO_AM_I             = 0x0F
-	LSM6DS3_STATUS               = 0x1E
-	LSM6DS3_CTRL1_XL             = 0x10
-	LSM6DS3_CTRL2_G              = 0x11
-	LSM6DS3_CTRL3_C              = 0x12
-	LSM6DS3_CTRL4_C              = 0x13
-	LSM6DS3_CTRL5_C              = 0x14
-	LSM6DS3_CTRL6_C              = 0x15
-	LSM6DS3_CTRL7_G              = 0x16
-	LSM6DS3_CTRL8_XL             = 0x17
-	LSM6DS3_CTRL9_XL             = 0x18
-	LSM6DS3_CTRL10_C             = 0x19
-	LSM6DS3_OUTX_L_G             = 0x22
-	LSM6DS3_OUTX_H_G             = 0x23
-	LSM6DS3_OUTY_L_G             = 0x24
-	LSM6DS3_OUTY_H_G             = 0x25
-	LSM6DS3_OUTZ_L_G             = 0x26
-	LSM6DS3_OUTZ_H_G             = 0x27
-	LSM6DS3_OUTX_L_XL            = 0x28
-	LSM6DS3_OUTX_H_XL            = 0x29
-	LSM6DS3_OUTY_L_XL            = 0x2A
-	LSM6DS3_OUTY_H_XL            = 0x2B
-	LSM6DS3_OUTZ_L_XL            = 0x2C
-	LSM6DS3_OUTZ_H_XL            = 0x2D
-	LSM6DS3_OUT_TEMP_L           = 0x20
-	LSM6DS3_OUT_TEMP_H           = 0x21
-	LSM6DS3_BW_SCAL_ODR_DISABLED = 0x00
-	LSM6DS3_BW_SCAL_ODR_ENABLED  = 0x80
-	LSM6DS3_STEP_TIMESTAMP_L     = 0x49
-	LSM6DS3_STEP_TIMESTAMP_H     = 0x4A
-	LSM6DS3_STEP_COUNTER_L       = 0x4B
-	LSM6DS3_STEP_COUNTER_H       = 0x4C
-	LSM6DS3_STEP_COUNT_DELTA     = 0x15
-	LSM6DS3_TAP_CFG              = 0x58
-	LSM6DS3_INT1_CTRL            = 0x0D
-
-	LSM6DS3_ACCEL_2G  lsm6ds3AccelRange = 0x00
-	LSM6DS3_ACCEL_4G  lsm6ds3AccelRange = 0x08
-	LSM6DS3_ACCEL_8G  lsm6ds3AccelRange = 0x0C
-	LSM6DS3_ACCEL_16G lsm6ds3AccelRange = 0x04
-
-	LSM6DS3_ACCEL_SR_OFF   lsm6ds3AccelSampleRate = 0x00
-	LSM6DS3_ACCEL_SR_13    lsm6ds3AccelSampleRate = 0x10
-	LSM6DS3_ACCEL_SR_26    lsm6ds3AccelSampleRate = 0x20
-	LSM6DS3_ACCEL_SR_52    lsm6ds3AccelSampleRate = 0x30
-	LSM6DS3_ACCEL_SR_104   lsm6ds3AccelSampleRate = 0x40
-	LSM6DS3_ACCEL_SR_208   lsm6ds3AccelSampleRate = 0x50
-	LSM6DS3_ACCEL_SR_416   lsm6ds3AccelSampleRate = 0x60
-	LSM6DS3_ACCEL_SR_833   lsm6ds3AccelSampleRate = 0x70
-	LSM6DS3_ACCEL_SR_1666  lsm6ds3AccelSampleRate = 0x80
-	LSM6DS3_ACCEL_SR_3332  lsm6ds3AccelSampleRate = 0x90
-	LSM6DS3_ACCEL_SR_6664  lsm6ds3AccelSampleRate = 0xA0
-	LSM6DS3_ACCEL_SR_13330 lsm6ds3AccelSampleRate = 0xB0
-
-	LSM6DS3_ACCEL_BW_50  lsm6ds3AccelBandwidth = 0x03
-	LSM6DS3_ACCEL_BW_100 lsm6ds3AccelBandwidth = 0x02
-	LSM6DS3_ACCEL_BW_200 lsm6ds3AccelBandwidth = 0x01
-	LSM6DS3_ACCEL_BW_400 lsm6ds3AccelBandwidth = 0x00
-
-	//GYRO_125DPS  GyroRange = 0x01
-	LSM6DS3_GYRO_250DPS  lsm6ds3GyroRange = 0x00
-	LSM6DS3_GYRO_500DPS  lsm6ds3GyroRange = 0x04
-	LSM6DS3_GYRO_1000DPS lsm6ds3GyroRange = 0x08
-	LSM6DS3_GYRO_2000DPS lsm6ds3GyroRange = 0x0C
-
-	LSM6DS3_GYRO_SR_OFF  lsm6ds3GyroSampleRate = 0x00
-	LSM6DS3_GYRO_SR_13   lsm6ds3GyroSampleRate = 0x10
-	LSM6DS3_GYRO_SR_26   lsm6ds3GyroSampleRate = 0x20
-	LSM6DS3_GYRO_SR_52   lsm6ds3GyroSampleRate = 0x30
-	LSM6DS3_GYRO_SR_104  lsm6ds3GyroSampleRate = 0x40
-	LSM6DS3_GYRO_SR_208  lsm6ds3GyroSampleRate = 0x50
-	LSM6DS3_GYRO_SR_416  lsm6ds3GyroSampleRate = 0x60
-	LSM6DS3_GYRO_SR_833  lsm6ds3GyroSampleRate = 0x70
-	LSM6DS3_GYRO_SR_1666 lsm6ds3GyroSampleRate = 0x80
 )
 
 // MPU6050 registers
@@ -662,102 +466,4 @@ const (
 	MPU6050_FIFO_COUNTL     = 0x73 // FIFO count registers (low bits)
 	MPU6050_FIFO_R_W        = 0x74 // FIFO read/write
 	MPU6050_WHO_AM_I        = 0x75 // Who am I
-)
-
-// SHT3X registers
-const (
-	Sht3xAddressA = 0x44
-	Sht3xAddressB = 0x45
-)
-
-const (
-	// single shot, high repeatability
-	SHT3X_MEASUREMENT_COMMAND_MSB = 0x24
-	SHT3X_MEASUREMENT_COMMAND_LSB = 0x00
-)
-
-// VL53L1x registers
-const Vl53l1xAddress = 0x29
-
-const (
-	VL53L1x_CHIP_ID                                                 = 0xEACC
-	VL53L1x_SOFT_RESET                                              = 0x0000
-	VL53L1x_OSC_MEASURED_FAST_OSC_FREQUENCY                         = 0x0006
-	VL53L1x_VHV_CONFIG_TIMEOUT_MACROP_LOOP_BOUND                    = 0x0008
-	VL53L1x_VHV_CONFIG_INIT                                         = 0x000B
-	VL53L1x_ALGO_PART_TO_PART_RANGE_OFFSET_MM                       = 0x001E
-	VL53L1x_MM_CONFIG_OUTER_OFFSET_MM                               = 0x0022
-	VL53L1x_DSS_CONFIG_TARGET_TOTAL_RATE_MCPS                       = 0x0024
-	VL53L1x_PAD_I2C_HV_EXTSUP_CONFIG                                = 0x002E
-	VL53L1x_GPIO_TIO_HV_STATUS                                      = 0x0031
-	VL53L1x_SIGMA_ESTIMATOR_EFFECTIVE_PULSE_WIDTH_NS                = 0x0036
-	VL53L1x_SIGMA_ESTIMATOR_EFFECTIVE_AMBIENT_WIDTH_NS              = 0x0037
-	VL53L1x_ALGO_CROSSTALK_COMPENSATION_VALID_HEIGHT_MM             = 0x0039
-	VL53L1x_ALGO_RANGE_MIN_CLIP                                     = 0x003F
-	VL53L1x_ALGO_CONSISTENCY_CHECK_TOLERANCE                        = 0x0040
-	VL53L1x_CAL_CONFIG_VCSEL_START                                  = 0x0047
-	VL53L1x_PHASECAL_CONFIG_TIMEOUT_MACROP                          = 0x004B
-	VL53L1x_PHASECAL_CONFIG_OVERRIDE                                = 0x004D
-	VL53L1x_DSS_CONFIG_ROI_MODE_CONTROL                             = 0x004F
-	VL53L1x_SYSTEM_THRESH_RATE_HIGH                                 = 0x0050
-	VL53L1x_SYSTEM_THRESH_RATE_LOW                                  = 0x0052
-	VL53L1x_DSS_CONFIG_MANUAL_EFFECTIVE_SPADS_SELECT                = 0x0054
-	VL53L1x_DSS_CONFIG_APERTURE_ATTENUATION                         = 0x0057
-	VL53L1x_MM_CONFIG_TIMEOUT_MACROP_A                              = 0x005A
-	VL53L1x_MM_CONFIG_TIMEOUT_MACROP_B                              = 0x005C
-	VL53L1x_RANGE_CONFIG_TIMEOUT_MACROP_A                           = 0x005E
-	VL53L1x_RANGE_CONFIG_VCSEL_PERIOD_A                             = 0x0060
-	VL53L1x_RANGE_CONFIG_TIMEOUT_MACROP_B                           = 0x0061
-	VL53L1x_RANGE_CONFIG_VCSEL_PERIOD_B                             = 0x0063
-	VL53L1x_RANGE_CONFIG_SIGMA_THRESH                               = 0x0064
-	VL53L1x_RANGE_CONFIG_MIN_COUNT_RATE_RTN_LIMIT_MCPS              = 0x0066
-	VL53L1x_RANGE_CONFIG_VALID_PHASE_HIGH                           = 0x0069
-	VL53L1x_SYSTEM_INTERMEASUREMENT_PERIOD                          = 0x006C
-	VL53L1x_SYSTEM_GROUPED_PARAMETER_HOLD_0                         = 0x0071
-	VL53L1x_SYSTEM_SEED_CONFIG                                      = 0x0077
-	VL53L1x_SD_CONFIG_WOI_SD0                                       = 0x0078
-	VL53L1x_SD_CONFIG_WOI_SD1                                       = 0x0079
-	VL53L1x_SD_CONFIG_INITIAL_PHASE_SD0                             = 0x007A
-	VL53L1x_SD_CONFIG_INITIAL_PHASE_SD1                             = 0x007B
-	VL53L1x_SYSTEM_GROUPED_PARAMETER_HOLD_1                         = 0x007C
-	VL53L1x_SD_CONFIG_QUANTIFIER                                    = 0x007E
-	VL53L1x_SYSTEM_SEQUENCE_CONFIG                                  = 0x0081
-	VL53L1x_SYSTEM_GROUPED_PARAMETER_HOLD                           = 0x0082
-	VL53L1x_SYSTEM_INTERRUPT_CLEAR                                  = 0x0086
-	VL53L1x_SYSTEM_MODE_START                                       = 0x0087
-	VL53L1x_RESULT_RANGE_STATUS                                     = 0x0089
-	VL53L1x_PHASECAL_RESULT_VCSEL_START                             = 0x00D8
-	VL53L1x_RESULT_OSC_CALIBRATE_VAL                                = 0x00DE
-	VL53L1x_FIRMWARE_SYSTEM_STATUS                                  = 0x00E5
-	VL53L1x_WHO_AM_I                                                = 0x010F
-	VL53L1x_SHADOW_RESULT_FINAL_CROSSTALK_CORRECTED_RANGE_MM_SD0_HI = 0x0FBE
-
-	VL53L1x_TIMING_GUARD = 4528
-	VL53L1x_TARGETRATE   = 0x0A00
-)
-
-const (
-	VL53L1x_SHORT vl53l1xDistanceMode = iota
-	VL53L1x_MEDIUM
-	VL53L1x_LONG
-)
-
-const (
-	VL53L1x_RangeValid vl53l1xRangeStatus = iota
-	VL53L1x_SigmaFail
-	VL53L1x_SignalFail
-	VL53L1x_RangeValidMinRangeClipped
-	VL53L1x_OutOfBoundsFail
-	VL53L1x_HardwareFail
-	VL53L1x_RangeValidNoWrapCheckFail
-	VL53L1x_WrapTargetFail
-	VL53L1x_ProcessingFail
-	VL53L1x_XtalkSignalFail
-	VL53L1x_SynchronizationInt
-	VL53L1x_MergedPulse
-	VL53L1x_TargetPresentLackOfSignal
-	VL53L1x_MinRangeFail
-	VL53L1x_RangeInvalid
-
-	VL53L1x_None vl53l1xRangeStatus = 255
 )
