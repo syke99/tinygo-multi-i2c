@@ -9,7 +9,7 @@ import (
 )
 
 type device interface {
-	configure(uint, uint, uint, uint) error
+	configure(uint, uint, uint, uint, uint) error
 	connected() bool
 }
 
@@ -45,9 +45,9 @@ func NewDevice(mach *machine.I2C, deviceName string, addr uint16, bmp280Settings
 
 	switch dev.(type) {
 	case Bmp280:
-		newDeviceError = dev.(device).configure(bmp280Settings[0], bmp280Settings[1], bmp280Settings[2], bmp280Settings[3])
+		newDeviceError = dev.(device).configure(bmp280Settings[0], bmp280Settings[1], bmp280Settings[2], bmp280Settings[3], bmp280Settings[4])
 	default:
-		newDeviceError = dev.(device).configure(0, 0, 0, 0)
+		newDeviceError = dev.(device).configure(0, 0, 0, 0, 0)
 	}
 
 	connectedBool := false
