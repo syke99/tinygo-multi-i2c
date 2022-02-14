@@ -20,7 +20,7 @@ Pre-requisites
 
 Why was tinygo-multi-i2c built?
 ====
-tinygo-multi-2c was built for the purpose of simplifying the process of setting up multiples of one or more devices that communicate over the I2C protocol using pre-written drivers from TinyGo (found [here](https://tinygo.org/docs/concepts/drivers/)).
+tinygo-multi-2c was built for the purpose of simplifying the process of setting up multiples of one or more devices that communicate over the same I2C bus using the I2c protocol and pre-written drivers from TinyGo (found [here](https://tinygo.org/docs/concepts/drivers/)).
 
 What problem does tinygo-multi-i2c solve?
 =====
