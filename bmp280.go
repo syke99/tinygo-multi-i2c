@@ -6,8 +6,6 @@ import (
 	"tinygo.org/x/drivers"
 )
 
-//-------------------------------------------------------------------------------------
-// Bmp280
 type bmp280CalibrationCoefficients struct {
 	// Temperature compensation
 	t1 uint16
@@ -42,8 +40,6 @@ type Bmp280 struct {
 	Filter      bmp280Filter
 }
 
-//-------------------------------------------------------------------------------------
-// BMP280
 func newBmp280(bus drivers.I2C, addr uint16) interface{} {
 	if addr != 0 {
 		return Bmp280{
@@ -58,8 +54,6 @@ func newBmp280(bus drivers.I2C, addr uint16) interface{} {
 	}
 }
 
-//-------------------------------------------------------------------------------------
-// Bmp280
 func (d Bmp280) configure(standby bmp290Standby, filter bmp280Filter, temp bmp280Oversampling, pres bmp280Oversampling, mode bmp280Mode) error {
 	d.Standby = standby
 	d.Filter = filter
@@ -100,16 +94,12 @@ func (d Bmp280) configure(standby bmp290Standby, filter bmp280Filter, temp bmp28
 	return nil
 }
 
-//-------------------------------------------------------------------------------------
-// BMP280
 func (d Bmp280) connected() bool {
 	data := make([]byte, 1)
 	d.bus.ReadRegister(uint8(d.Address), BMP280_REG_ID, data)
 	return data[0] == BMP280_CHIP_ID
 }
 
-//-------------------------------------------------------------------------------------
-// BMP280
 func (d Bmp280) Reset() {
 	d.bus.WriteRegister(uint8(d.Address), BMP280_REG_RESET, []byte{BMP280_CMD_RESET})
 }
@@ -181,6 +171,8 @@ func (d Bmp280) ReadPressure() (pressure int32, err error) {
 
 	return 1000 * (int32(p) + ((var1 + var2 + int32(d.cali.p7)) >> 4)), nil
 }
+
+// private function
 
 func (d Bmp280) readData(register int, n int) ([]byte, error) {
 	// If not in normal mode, set the mode to FORCED mode, to prevent incorrect measurements

@@ -6,8 +6,6 @@ import (
 	"tinygo.org/x/drivers"
 )
 
-//-------------------------------------------------------------------------------------
-// BME280
 type bme280CalibrationCoefficients struct {
 	t1 uint16
 	t2 int16
@@ -35,8 +33,6 @@ type Bme280 struct {
 	calibrationCoefficients bme280CalibrationCoefficients
 }
 
-//-------------------------------------------------------------------------------------
-// BME280
 func newBme280(bus drivers.I2C, addr uint16) interface{} {
 	if addr != 0 {
 		return Bme280{
@@ -51,8 +47,6 @@ func newBme280(bus drivers.I2C, addr uint16) interface{} {
 	}
 }
 
-//-------------------------------------------------------------------------------------
-// BME280
 func (d Bme280) configure() error {
 	var data [24]byte
 	err := d.bus.ReadRegister(uint8(d.Address), BME280_REG_CALIBRATION, data[:])
@@ -99,16 +93,12 @@ func (d Bme280) configure() error {
 	return nil
 }
 
-//-------------------------------------------------------------------------------------
-// BME280
 func (d Bme280) connected() bool {
 	data := []byte{0}
 	d.bus.ReadRegister(uint8(d.Address), BME280_WHO_AM_I, data)
 	return data[0] == BME280_CHIP_ID
 }
 
-//-------------------------------------------------------------------------------------
-// BME280
 func (d Bme280) Reset() {
 	d.bus.WriteRegister(uint8(d.Address), BME280_CMD_RESET, []byte{0xB6})
 }
@@ -149,6 +139,8 @@ func (d Bme280) ReadAltitude() (alt int32, err error) {
 	alt = int32(44330.0 * (1.0 - math.Pow(float64(atmP/BME280_SEALEVEL_PRESSURE), 0.1903)))
 	return
 }
+
+// private functions
 
 func (d Bme280) calculateTemp(data [8]byte) (int32, int32) {
 

@@ -6,8 +6,6 @@ import (
 	"tinygo.org/x/drivers"
 )
 
-//-------------------------------------------------------------------------------------
-// Ds3231
 type Ds3231Mode uint8
 
 type Ds3231 struct {
@@ -15,8 +13,6 @@ type Ds3231 struct {
 	Address uint16
 }
 
-//-------------------------------------------------------------------------------------
-// Ds3231
 func newDs3231(bus drivers.I2C, addr uint16) interface{} {
 	if addr != 0 {
 		return Ds3231{
@@ -31,8 +27,6 @@ func newDs3231(bus drivers.I2C, addr uint16) interface{} {
 	}
 }
 
-//-------------------------------------------------------------------------------------
-// Ds3231
 func (d Ds3231) configure() {
 	// DS3231 doesn't need a configure method??
 }
@@ -145,6 +139,8 @@ func (d Ds3231) ReadTemperature() (int32, error) {
 	}
 	return int32(data[0])*1000 + int32((data[1]>>6)*25)*10, nil
 }
+
+// private functions
 
 // uint8ToBCD converts a byte to BCD for the DS3231
 func uint8ToBCD(value uint8) uint8 {

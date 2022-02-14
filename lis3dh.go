@@ -5,16 +5,12 @@ import "tinygo.org/x/drivers"
 type Lis3dhRange uint8
 type Lis3dhRate uint8
 
-//-------------------------------------------------------------------------------------
-// Lis3dh
 type Lis3dh struct {
 	bus     drivers.I2C
 	Address uint16
 	r       Lis3dhRange
 }
 
-//-------------------------------------------------------------------------------------
-// Lis3dh
 func newLis3dh(bus drivers.I2C, addr uint16) interface{} {
 	if addr != 0 {
 		return Lis3dh{
@@ -29,8 +25,6 @@ func newLis3dh(bus drivers.I2C, addr uint16) interface{} {
 	}
 }
 
-//-------------------------------------------------------------------------------------
-// Lis3dh
 func (d Lis3dh) configure() error {
 	// enable all axes, normal mode
 	if err := d.bus.WriteRegister(uint8(d.Address), LIS3DH_REG_CTRL1, []byte{0x07}); err != nil {
@@ -51,8 +45,6 @@ func (d Lis3dh) configure() error {
 	return nil
 }
 
-//-------------------------------------------------------------------------------------
-// Lis3dh
 func (d Lis3dh) connected() bool {
 	data := []byte{0}
 	err := d.bus.ReadRegister(uint8(d.Address), LIS3DH_WHO_AM_I, data)
@@ -62,8 +54,6 @@ func (d Lis3dh) connected() bool {
 	return data[0] == 0x33
 }
 
-//-------------------------------------------------------------------------------------
-// Lis3dh
 func (d Lis3dh) SetDataRate(rate Lis3dhDataRate) {
 	ctl1 := []byte{0}
 	err := d.bus.ReadRegister(uint8(d.Address), LIS3DH_REG_CTRL1, ctl1)

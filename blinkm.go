@@ -2,15 +2,11 @@ package multi
 
 import "tinygo.org/x/drivers"
 
-//-------------------------------------------------------------------------------------
-// BLINKM
 type Blinkm struct {
 	bus     drivers.I2C
 	Address uint16
 }
 
-//-------------------------------------------------------------------------------------
-// BLINKM
 func newBlinkm(bus drivers.I2C, addr uint16) interface{} {
 	if addr != 0 {
 		return Blinkm{
@@ -25,8 +21,6 @@ func newBlinkm(bus drivers.I2C, addr uint16) interface{} {
 	}
 }
 
-//-------------------------------------------------------------------------------------
-// BLINKM
 func (d Blinkm) configure() error {
 	if err := d.bus.Tx(d.Address, []byte{'o'}, nil); err != nil {
 		return err
@@ -35,8 +29,6 @@ func (d Blinkm) configure() error {
 	return nil
 }
 
-//-------------------------------------------------------------------------------------
-// BLINKM
 func (d Blinkm) Version() (major, minor byte, err error) {
 	version := []byte{0, 0}
 	d.bus.Tx(d.Address, []byte{BLINKM_GET_FIRMWARE}, version)

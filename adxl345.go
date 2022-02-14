@@ -2,8 +2,6 @@ package multi
 
 import "tinygo.org/x/drivers"
 
-//-------------------------------------------------------------------------------------
-// ADXL345
 type Adxl345Range uint8
 type Adxl345Rate uint8
 
@@ -40,8 +38,6 @@ type Adxl345 struct {
 	bwRate     adxl345BwRate
 }
 
-//-------------------------------------------------------------------------------------
-// ADXL345
 func newAdx1345(bus drivers.I2C, addr uint16) interface{} {
 	if addr != 0 {
 		return Adxl345{
@@ -76,8 +72,6 @@ func newAdx1345(bus drivers.I2C, addr uint16) interface{} {
 	}
 }
 
-//-------------------------------------------------------------------------------------
-// ADXL345
 func (d Adxl345) configure() error {
 	d.bus.WriteRegister(uint8(d.Address), ADX1345_REG_BW_RATE, []byte{d.bwRate.toByte()})
 	d.bus.WriteRegister(uint8(d.Address), ADX1345_REG_POWER_CTL, []byte{d.powerCtl.toByte()})
@@ -86,8 +80,6 @@ func (d Adxl345) configure() error {
 	return nil
 }
 
-//-------------------------------------------------------------------------------------
-// ADXL345
 func (p adxl345PowerCtl) toByte() (bits uint8) {
 	bits = 0x00
 	bits = bits | (p.link << 5)
@@ -183,6 +175,8 @@ func (d Adxl345) SetRange(sensorRange Adxl345Range) bool {
 	d.bus.WriteRegister(uint8(d.Address), ADX1345_REG_DATA_FORMAT, []byte{d.dataFormat.toByte()})
 	return true
 }
+
+// private functions
 
 // convertToIS adjusts the raw values from the adxl345 with the range configuration
 func (d adxl345DataFormat) convertToIS(rawValue int32) int32 {

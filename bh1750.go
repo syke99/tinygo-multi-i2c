@@ -6,16 +6,12 @@ import (
 	"tinygo.org/x/drivers"
 )
 
-//-------------------------------------------------------------------------------------
-// BH1750
 type Bh1750 struct {
 	bus     drivers.I2C
 	Address uint16
 	mode    byte
 }
 
-//-------------------------------------------------------------------------------------
-// BH1750
 func newBh1750(bus drivers.I2C, addr uint16) interface{} {
 	if addr != 0 {
 		return Bh1750{
@@ -32,8 +28,6 @@ func newBh1750(bus drivers.I2C, addr uint16) interface{} {
 	}
 }
 
-//-------------------------------------------------------------------------------------
-// BH1750
 func (d Bh1750) configure() error {
 	if err := d.bus.Tx(d.Address, []byte{BH1750_POWER_ON}, nil); err != nil {
 		return err
@@ -43,8 +37,6 @@ func (d Bh1750) configure() error {
 	return nil
 }
 
-//-------------------------------------------------------------------------------------
-// BH1750
 func (d Bh1750) RawSensorData() uint16 {
 
 	buf := []byte{1, 0}
