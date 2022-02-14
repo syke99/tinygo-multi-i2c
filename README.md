@@ -64,6 +64,7 @@ Declare a variable to hold the returned Devices struct that will be used to acce
 
 ```go
 // since this isn't a BMP280, we need to just pass in a slice of uint's that are all 0
+// it can also be reused for any other I2C device that you're using that isn't a BMP280
 // a BMP280 needs 5 uint's passed to it for its Standby, Filter, Temperature, Pressure, and Mode.
 b := [5]uint{0,0,0,0,0}
 
@@ -78,7 +79,7 @@ devices, error := multi.NewDevice(i2c, "blinkm", 0x00, b)
 After that, you can use the variable you declared, followed by the name of the device you just created using dot notation, followed by the function you would like to use. (A list of available devices can be found above. Just change any letters to their respective lowercase.) Ex:
 
 ```go
-error := devices.blinkm.setRGB
+error := devices.blinkm.FadeToRGB()
 ```
 
 This process can be repeated by simply repeating the line to create a new device, just with a new name of a variable to hold the Devices struct for each device you wish to create. Ex:
