@@ -24,7 +24,7 @@ tinygo-multi-2c was built for the purpose of simplifying the process of setting 
 
 What problem does tinygo-multi-i2c solve?
 =====
-While using the pre-written drivers from TinyGo is extremely useful, it takes a handful of lines to set up one device. And that's only if you're using the default address that specifc device uses. Whereas using the tinygo-multi-i2c package, you can create a device, configure it, set the address specifically to the one you want, and test the connection for that device all in as little as two lines after initializing the your I2C bus, allowing for cleaner, more concise code. Initializing the I2C bus; which will be the same as doing so with the drivers package from TinyGo (an example of can be found on TinyGo's page for Divers [here](https://github.com/tinygo-org/drivers); there's also an [example](https://github.com/syke99/tinygo-multi-i2c/blob/main/README.md#basic-usage) down below). The error returned, if nil isn't returned, will help point you in the direction of where your device set-up is failing to allow for smooth debugging.
+While using the pre-written drivers from TinyGo is extremely useful, it takes a handful of lines to set up one device. And that's only if you're using the default address that specifc device uses. Whereas using the tinygo-multi-i2c package, you can create a device, configure it, set the address specifically to the one you want, and test the connection for that device all in as little as two lines after initializing the your I2C bus, allowing for cleaner, more concise code. Initializing the I2C bus; which will be the same as doing so with the drivers package from TinyGo (an example of can be found on TinyGo's page for Divers [here](https://tinygo.org/docs/concepts/drivers/); there's also an [example](https://github.com/syke99/tinygo-multi-i2c/blob/main/README.md#basic-usage) down below). The error returned, if nil isn't returned, will help point you in the direction of where your device set-up is failing to allow for smooth debugging.
 
 How do I use tinygo-multi-i2c?
 =====
@@ -38,7 +38,6 @@ Then you can import the package in any go file you'd like
 
 ```go
 import (
-
     "machine"
 
      multi "github.com/syke99/go-c2dmc"
@@ -52,8 +51,8 @@ Initialize your I2C bus by initializing and configuring an machine.I2C0 to be pa
 ```go
     i2c := machine.I2C0
     err := i2c.Configure(machine.I2CConfig{
-        SCL: machine.P0_30,
-        SDA: machine.P0_31,
+        SCL: machine.P0_30, // <-- These values will be dependent on what microcontroller you're using
+        SDA: machine.P0_31, // <-- These values will be dependent on what microcontroller you're using
     })
     if err != nil {
         println("could not configure I2C:", err)
