@@ -32,7 +32,11 @@ func initializeDeviceMap(bus drivers.I2C, addr uint16) map[string]interface{} {
 	return deviceMap
 }
 
-func NewDevice(mach *machine.I2C, deviceName string, addr uint16, bmp280Settings []uint) (Devices, error) {
+// The BMP280 Temperature, Humidity, and Berometric Pressure sensor by Bosch
+// Sensortech requires some settings to be passed in as an array with
+// a length of 5, of uint values to set Standby, Filter, Temperature, Pressure,
+// and Mode
+func NewDevice(mach *machine.I2C, deviceName string, addr uint16, bmp280Settings [5]uint) (Devices, error) {
 
 	var newDeviceError error
 
@@ -41,7 +45,7 @@ func NewDevice(mach *machine.I2C, deviceName string, addr uint16, bmp280Settings
 	dev := deviceMap[deviceName]
 
 	switch dev.(type) {
-	case Bme280:
+	case Bmp280:
 		newDeviceError = dev.(device).configure(bmp280Settings[0], bmp280Settings[1], bmp280Settings[2], bmp280Settings[3])
 	default:
 		newDeviceError = dev.(device).configure(0, 0, 0, 0)
