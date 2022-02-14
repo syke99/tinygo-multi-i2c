@@ -76,10 +76,16 @@ devices, error := multi.NewDevice(i2c, "blinkm", 0x00, b)
 
 **NOTE:** if you are setting up a BMP280 device, you must provide 5 arguments (of type uint) to the NewDevice method to configure the BMP280's Standby, Filter, Temperature, Pressure, and Mode. If not, simply pass in all 0's. This example just uses all 0's with a BMP280 for brevity's sake.
 
-After that, you can use the variable you declared, followed by the name of the device you just created using dot notation, followed by the function you would like to use. (A list of available devices can be found above. Just change any letters to their respective lowercase.) Ex:
+After that, grab the device you created and save it in a variable by using dot notation with the Devices struct you got returned. Ex:
 
 ```go
-error := devices.blinkm.FadeToRGB()
+b := devices.blinkm
+```
+
+Then you can simply just call the function that corresponds to how you want to interact with the device. Ex:
+
+```go
+error := b.FadeToRGB()
 ```
 
 This process can be repeated by simply repeating the line to create a new device, just with a new name of a variable to hold the Devices struct for each device you wish to create. Ex:
@@ -89,20 +95,23 @@ This process can be repeated by simply repeating the line to create a new device
 
 // Device 1, a BLINKM RGB light
 d1, error := multi.NewDevice(i2c, "blinkm", 0, b)
+bl := d1.blinkm
 
 // Device 2, an MPU6050 motion tracking device
 d2, error := multi.NewDevice(i2c, "mpu6050", 0, b)
+m := d2.mpu6050
 
 // Device 3, a BH1750 light sensor
 d3, error := multi.NewDevice(i2c, "bh1750", 0, b)
+bh := d3.bh1750
 
-error := d1.bmp280.FadeToRGB()
+error := bl.FadeToRGB()
 // handle error and/or using pressure reading value here
 
-acceleration, error := d2.mpu6050.ReadAcceleration()
+acceleration, error := m.ReadAcceleration()
 // handle error and/or using acceleration reading value here
 
-illuminance, error := d3.bh1750.Illuminance()
+illuminance, error := bh.Illuminance()
 // handle error and/or using illuminance reading value here
 ```
 
