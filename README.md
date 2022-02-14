@@ -68,9 +68,9 @@ Declare a variable to hold the returned Devices struct that will be used to acce
 // a BMP280 needs 5 uint's passed to it for its Standby, Filter, Temperature, Pressure, and Mode.
 b := [5]uint{0,0,0,0,0}
 
-// the default address for a BLINKM is 0x09, so to dynamically set it, we pass in the address, i.e.: 
-// 0x00 in this example
-// if you want to use the default address of 0x76, you can just pass in a 0 as the address
+// the default address for a BLINKM is 0x09, so to dynamically set it, we pass in the address, 
+// i.e.: 0x00 in this example
+// if you want to use the default address of 0x09, you can just pass in a 0 as the address
 devices, error := multi.NewDevice(i2c, "blinkm", 0x00, b)
 ```
 
