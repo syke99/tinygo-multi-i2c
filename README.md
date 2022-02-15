@@ -62,7 +62,7 @@ Initialize your I2C bus by initializing and configuring an machine.I2C0 to be pa
     }
 ```
 
-Declare a variable to hold the returned Devices struct that will be used to access the device you create, and then call multi.NewDevices(params) and pass in your parameters, the first being the name of the device you would like to create in all lowercase (minus the first letter). Ex:
+Declare a variable to hold the returned Devices struct that will be used to access the device you create, and then call multi.NewDevices(params) and pass in your parameters, the first being the i2c bus you initialized, followed by the name of the device you would like to create in all lowercase (minus the first letter). Ex:
 
 ```go
 // since this isn't a BMP280, we need to just pass in a slice of uint's that are all 0
