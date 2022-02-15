@@ -91,7 +91,9 @@ error := b.FadeToRGB()
 This process can be repeated by simply repeating the line to create a new device, just with a new name of a variable to hold the Devices struct for each device you wish to create. Ex:
 
 ```go
-// These devices are using the default addresses, so passing in 0, and using the []uint, b we initialized above since none of them are a BMP280
+// These devices are using the default addresses, 
+// so passing in 0, and using the []uint named b we initialized 
+// above since none of them are a BMP280
 
 // Device 1, a BLINKM RGB light
 d1, error := multi.NewDevice(i2c, "blinkm", 0, b)
