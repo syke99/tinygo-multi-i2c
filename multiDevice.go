@@ -3,7 +3,6 @@ package multi
 import (
 	"errors"
 	"fmt"
-	// "machine"
 )
 
 type device interface {
