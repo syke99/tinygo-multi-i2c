@@ -60,7 +60,7 @@ Initialize your I2C bus by initializing and configuring an machine.I2C0 to be pa
     }
 ```
 
-Declare a variable to hold the returned Devices struct that will be used to access the device you create, and then call multi.NewDevices(params) and pass in your parameters, the first being the name of the device you would like to create in all lowercase. Ex:
+Declare a variable to hold the returned Devices struct that will be used to access the device you create, and then call multi.NewDevices(params) and pass in your parameters, the first being the name of the device you would like to create in all lowercase (minus the first letter). Ex:
 
 ```go
 // since this isn't a BMP280, we need to just pass in a slice of uint's that are all 0
@@ -79,7 +79,7 @@ devices, error := multi.NewDevice(i2c, "blinkm", 0x00, b)
 After that, grab the device you created and save it in a variable by using dot notation with the Devices struct you got returned. Ex:
 
 ```go
-b := devices.blinkm
+b := devices.Blinkm
 ```
 
 Then you can simply just call the function that corresponds to how you want to interact with the device. Ex:
@@ -98,17 +98,17 @@ This process can be repeated by simply repeating the line to create a new device
 // Device 1, a BLINKM RGB light
 d1, error := multi.NewDevice(i2c, "blinkm", 0, b)
 // Handle or ignore error (advised to not ignore)
-bl := d1.blinkm
+bl := d1.Blinkm
 
 // Device 2, an MPU6050 motion tracking device
 d2, error := multi.NewDevice(i2c, "mpu6050", 0, b)
 // Handle or ignore error (advised to not ignore)
-m := d2.mpu6050
+m := d2.Mpu6050
 
 // Device 3, a BH1750 light sensor
 d3, error := multi.NewDevice(i2c, "bh1750", 0, b)
 // Handle or ignore error (advised to not ignore)
-bh := d3.bh1750
+bh := d3.Bh1750
 
 error := bl.FadeToRGB()
 // handle error and/or using pressure reading value here
