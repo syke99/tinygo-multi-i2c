@@ -1,4 +1,6 @@
 # tinygo-multi-i2c
+[![Go Reference](https://pkg.go.dev/badge/github.com/syke99/tinygo-multi-i2c.svg)](https://pkg.go.dev/github.com/syke99/tinygo-multi-i2c)
+[![go reportcard](https://goreportcard.com/badge/github.com/syke99/tinygo-multi-i2c)](https://goreportcard.com/report/github.com/syke99/tinygo-multi-i2c)
 A reimplementation of the TinyGo drivers package for communicating with multiples of the same (supported) devices on one individual I2C bus.
 
 Supported Devices
