@@ -33,7 +33,7 @@ func initializeDeviceMap(bus I2C, addr uint16) map[string]interface{} {
 // Sensortech requires some settings to be passed in as an array with
 // a length of 5, of uint values to set Standby, Filter, Temperature, Pressure,
 // and Mode
-func NewDevice(mach *I2C, deviceName string, addr uint16, bmp280Settings [5]uint) (Devices, error) {
+func NewDevice(mach I2C, deviceName string, addr uint16, bmp280Settings [5]uint) (Devices, error) {
 
 	var newDeviceError error
 
