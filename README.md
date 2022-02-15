@@ -15,7 +15,7 @@ Supported Devices
 
 Pre-requisites
 ====
-- you must have Go installed (recommended v1.17+)
+- you must have Go installed (recommended v1.17+, for Windows 10, you MUST use Go v1.16 or greater)
 - you must have TinyGo installed (quick install guides found [here](https://tinygo.org/getting-started/install/)) and configured for the IDE you are using (guides for both VSCode, IntelliJ IDEA, and other IDEs found [here](https://tinygo.org/docs/guides/ide-integration/))
 
 Why was tinygo-multi-i2c built?
@@ -95,14 +95,17 @@ This process can be repeated by simply repeating the line to create a new device
 
 // Device 1, a BLINKM RGB light
 d1, error := multi.NewDevice(i2c, "blinkm", 0, b)
+// Handle or ignore error (advised to not ignore)
 bl := d1.blinkm
 
 // Device 2, an MPU6050 motion tracking device
 d2, error := multi.NewDevice(i2c, "mpu6050", 0, b)
+// Handle or ignore error (advised to not ignore)
 m := d2.mpu6050
 
 // Device 3, a BH1750 light sensor
 d3, error := multi.NewDevice(i2c, "bh1750", 0, b)
+// Handle or ignore error (advised to not ignore)
 bh := d3.bh1750
 
 error := bl.FadeToRGB()
