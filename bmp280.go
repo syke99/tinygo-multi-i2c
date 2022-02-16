@@ -22,23 +22,18 @@ type bmp280CalibrationCoefficients struct {
 	p9 int16
 }
 
-type bmp280Oversampling uint
-type bmp280Mode uint
-type bmp290Standby uint
-type bmp280Filter uint
-
 type Bmp280 struct {
 	bus         I2C
 	Address     uint16
 	cali        bmp280CalibrationCoefficients
-	Temperature bmp280Oversampling
-	Pressure    bmp280Oversampling
-	Mode        bmp280Mode
-	Standby     bmp290Standby
-	Filter      bmp280Filter
+	Temperature uint
+	Pressure    uint
+	Mode        uint
+	Standby     uint
+	Filter      uint
 }
 
-func newBmp280(bus I2C, addr uint16) interface{} {
+func newBmp280(bus I2C, addr uint16) Bmp280 {
 	if addr != 0 {
 		return Bmp280{
 			bus:     bus,
@@ -52,7 +47,7 @@ func newBmp280(bus I2C, addr uint16) interface{} {
 	}
 }
 
-func (d Bmp280) configure(standby bmp290Standby, filter bmp280Filter, temp bmp280Oversampling, pres bmp280Oversampling, mode bmp280Mode) error {
+func (d Bmp280) configure(standby uint, filter uint, temp uint, pres uint, mode uint) error {
 	d.Standby = standby
 	d.Filter = filter
 	d.Temperature = temp

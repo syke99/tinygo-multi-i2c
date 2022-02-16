@@ -5,7 +5,7 @@ type Mpu6050 struct {
 	Address uint16
 }
 
-func newMpu6050(bus I2C, addr uint16) interface{} {
+func newMpu6050(bus I2C, addr uint16) Mpu6050 {
 	if addr != 0 {
 		return Mpu6050{
 			bus:     bus,

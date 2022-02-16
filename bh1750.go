@@ -10,7 +10,7 @@ type Bh1750 struct {
 	mode    byte
 }
 
-func newBh1750(bus I2C, addr uint16) interface{} {
+func newBh1750(bus I2C, addr uint16) Bh1750 {
 	if addr != 0 {
 		return Bh1750{
 			bus:     bus,

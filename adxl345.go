@@ -36,7 +36,7 @@ type Adxl345 struct {
 	bwRate     adxl345BwRate
 }
 
-func newAdx1345(bus I2C, addr uint16) interface{} {
+func newAdx1345(bus I2C, addr uint16) Adxl345 {
 	if addr != 0 {
 		return Adxl345{
 			bus: bus,

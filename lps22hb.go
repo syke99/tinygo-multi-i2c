@@ -5,7 +5,7 @@ type Lps22hb struct {
 	Address uint8
 }
 
-func newLps22hb(bus I2C, addr uint16) interface{} {
+func newLps22hb(bus I2C, addr uint16) Lps22hb {
 	if addr != 0 {
 		return Lps22hb{
 			bus:     bus,

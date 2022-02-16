@@ -9,7 +9,7 @@ type Lis3dh struct {
 	r       Lis3dhRange
 }
 
-func newLis3dh(bus I2C, addr uint16) interface{} {
+func newLis3dh(bus I2C, addr uint16) Lis3dh {
 	if addr != 0 {
 		return Lis3dh{
 			bus:     bus,
@@ -65,7 +65,7 @@ func (d Lis3dh) SetDataRate(rate Lis3dhDataRate) {
 }
 
 // SetRange sets the G range for LIS3DH.
-func (d Lis3dh) SetRange(r Lis3dhRange) {
+func (d *Lis3dh) SetRange(r Lis3dhRange) {
 	ctl := []byte{0}
 	err := d.bus.ReadRegister(uint8(d.Address), LIS3DH_REG_CTRL4, ctl)
 	if err != nil {
@@ -80,7 +80,7 @@ func (d Lis3dh) SetRange(r Lis3dhRange) {
 	d.r = r
 }
 
-func (d Lis3dh) ReadRange() (r Lis3dhRange) {
+func (d *Lis3dh) ReadRange() (r Lis3dhRange) {
 	ctl := []byte{0}
 	err := d.bus.ReadRegister(uint8(d.Address), LIS3DH_REG_CTRL4, ctl)
 	if err != nil {

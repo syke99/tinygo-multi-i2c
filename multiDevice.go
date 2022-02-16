@@ -2,147 +2,111 @@ package multi
 
 import (
 	"errors"
-	"fmt"
 )
-
-type device interface {
-	configure(uint, uint, uint, uint, uint) error
-	connected() bool
-}
-
-func initializeDeviceMap(bus I2C, addr uint16) map[string]interface{} {
-
-	deviceMap := make(map[string]interface{})
-
-	deviceMap["adxl345"] = newAdx1345(bus, addr)
-	deviceMap["amg88xx"] = newAmg88xx(bus, addr)
-	deviceMap["bh1750"] = newBh1750(bus, addr)
-	deviceMap["blinkm"] = newBlinkm(bus, addr)
-	deviceMap["bme280"] = newBme280(bus, addr)
-	deviceMap["bmp280"] = newBmp280(bus, addr)
-	deviceMap["ds3231"] = newDs3231(bus, addr)
-	deviceMap["lis3dh"] = newLis3dh(bus, addr)
-	deviceMap["lps22hb"] = newLps22hb(bus, addr)
-	deviceMap["mpu6050"] = newMpu6050(bus, addr)
-
-	return deviceMap
-}
 
 // The BMP280 Temperature, Humidity, and Berometric Pressure sensor by Bosch
 // Sensortech requires some settings to be passed in as an array with
 // a length of 5, of uint values to set Standby, Filter, Temperature, Pressure,
 // and Mode
-func NewDevice(mach I2C, deviceName string, addr uint16, bmp280Settings [5]uint) (Devices, error) {
-
-	var newDeviceError error
-
-	deviceMap := initializeDeviceMap(mach, addr)
-
-	dev := deviceMap[deviceName]
-
-	switch dev.(type) {
-	case Bmp280:
-		newDeviceError = dev.(device).configure(bmp280Settings[0], bmp280Settings[1], bmp280Settings[2], bmp280Settings[3], bmp280Settings[4])
-	default:
-		newDeviceError = dev.(device).configure(0, 0, 0, 0, 0)
-	}
-
-	connectedBool := false
-
-	switch dev.(type) {
-	case Bme280, Bmp280, Lis3dh, Lps22hb, Mpu6050:
-		connectedBool = dev.(device).connected()
-		if !connectedBool {
-			newDeviceError = errors.New("Device configured but unable to connect.")
-		}
-	}
+func NewDevice(bus I2C, deviceName string, addr uint16, bmp280Settings [5]uint) (Devices, error) {
 
 	var dvc Devices
 
-	switch dev.(type) {
-	case Adxl345:
-		value, ok := dev.(Adxl345)
+	var newDeviceError error
 
-		if !ok {
-			newDeviceError = errors.New(fmt.Sprintf("Cannot set created device to type: %T. Device creation failed.", dev.(Adxl345)))
-		} else {
-			dvc.addAdxl1345(value)
-		}
-	case Amg88xx:
-		value, ok := dev.(Amg88xx)
+	// This new switch allows for avoiding unnecessary polymorphism
+	// like was implemented in v0.1.0 the polymorphism required
+	// switching on an interface type assertion that could cause
+	// package to panic due to possibly removing the ability for more type
+	// asserting that was required for testing the connection.
+	switch deviceName {
+	case "adxl345":
+		dvc.addAdxl1345(newAdx1345(bus, addr))
 
-		if !ok {
-			newDeviceError = errors.New(fmt.Sprintf("Cannot set created device to type: %T. Device creation failed.", dev.(Amg88xx)))
-		} else {
-			dvc.addAmg88xx(value)
-		}
-	case Bh1750:
-		value, ok := dev.(Bh1750)
+		dvc.adxl345.configure()
 
-		if !ok {
-			newDeviceError = errors.New(fmt.Sprintf("Cannot set created device to type: %T. Device creation failed.", dev.(Bh1750)))
-		} else {
-			dvc.addBh1750(value)
-		}
-	case Blinkm:
-		value, ok := dev.(Blinkm)
+		return dvc, newDeviceError
+	case "amg88xx":
+		dvc.addAmg88xx(newAmg88xx(bus, addr))
 
-		if !ok {
-			newDeviceError = errors.New(fmt.Sprintf("Cannot set created device to type: %T. Device creation failed.", dev.(Blinkm)))
-		} else {
-			dvc.addBlinkm(value)
-		}
-	case Bme280:
-		value, ok := dev.(Bme280)
+		dvc.amg88xx.configure()
 
-		if !ok {
-			newDeviceError = errors.New(fmt.Sprintf("Cannot set created device to type: %T. Device creation failed.", dev.(Bme280)))
-		} else {
-			dvc.addBme280(value)
-		}
-	case Bmp280:
-		value, ok := dev.(Bmp280)
+		return dvc, newDeviceError
+	case "bh1750":
+		dvc.addBh1750(newBh1750(bus, addr))
 
-		if !ok {
-			newDeviceError = errors.New(fmt.Sprintf("Cannot set created device to type: %T. Device creation failed.", dev.(Bmp280)))
-		} else {
-			dvc.addBmp280(value)
-		}
-	case Ds3231:
-		value, ok := dev.(Ds3231)
+		dvc.bh1750.configure()
 
-		if !ok {
-			newDeviceError = errors.New(fmt.Sprintf("Cannot set created device to type: %T. Device creation failed.", dev.(Ds3231)))
-		} else {
-			dvc.addDs3231(value)
-		}
-	case Lis3dh:
-		value, ok := dev.(Lis3dh)
+		return dvc, newDeviceError
+	case "blinkm":
+		dvc.addBlinkm(newBlinkm(bus, addr))
 
-		if !ok {
-			newDeviceError = errors.New(fmt.Sprintf("Cannot set created device to type: %T. Device creation failed.", dev.(Lis3dh)))
-		} else {
-			dvc.addLis3dh(value)
-		}
-	case Lps22hb:
-		value, ok := dev.(Lps22hb)
+		dvc.blinkm.configure()
 
-		if !ok {
-			newDeviceError = errors.New(fmt.Sprintf("Cannot set created device to type: %T. Device creation failed.", dev.(Lps22hb)))
-		} else {
-			dvc.addLps22hb(value)
-		}
-	case Mpu6050:
-		value, ok := dev.(Mpu6050)
+		return dvc, newDeviceError
+	case "bme280":
+		dvc.addBme280(newBme280(bus, addr))
 
-		if !ok {
-			newDeviceError = errors.New(fmt.Sprintf("Cannot set created device to type: %T. Device creation failed.", dev.(Mpu6050)))
-		} else {
-			dvc.addMpu6050(value)
+		dvc.bme280.configure()
+
+		err := dvc.bme280.connected()
+		if !err {
+			newDeviceError = errors.New("device configured but unable to connect")
 		}
+
+		return dvc, newDeviceError
+	case "bmp280":
+		dvc.addBmp280(newBmp280(bus, addr))
+
+		dvc.bmp280.configure(bmp280Settings[0], bmp280Settings[1], bmp280Settings[2], bmp280Settings[3], bmp280Settings[4])
+
+		err := dvc.bmp280.connected()
+		if !err {
+			newDeviceError = errors.New("device configured but unable to connect")
+		}
+
+		return dvc, newDeviceError
+	case "ds3231":
+		dvc.addDs3231(newDs3231(bus, addr))
+
+		dvc.ds3231.configure()
+
+		return dvc, newDeviceError
+	case "lis3dh":
+		dvc.addLis3dh(newLis3dh(bus, addr))
+
+		dvc.lis3dh.configure()
+
+		err := dvc.lis3dh.connected()
+		if !err {
+			newDeviceError = errors.New("device configured but unable to connect")
+		}
+
+		return dvc, newDeviceError
+	case "lps22hb":
+		dvc.addLps22hb(newLps22hb(bus, addr))
+
+		dvc.lps22hb.configure()
+
+		err := dvc.lps22hb.connected()
+		if !err {
+			newDeviceError = errors.New("device configured but unable to connect")
+		}
+
+		return dvc, newDeviceError
+	case "mpu6050":
+		dvc.addMpu6050(newMpu6050(bus, addr))
+
+		dvc.mpu6050.configure()
+
+		err := dvc.mpu6050.connected()
+		if !err {
+			newDeviceError = errors.New("device configured but unable to connect")
+		}
+
+		return dvc, newDeviceError
 	default:
-		newDeviceError = errors.New("Device creation failure.")
+		return dvc, newDeviceError
 	}
 
-	return dvc, newDeviceError
 }

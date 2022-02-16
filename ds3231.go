@@ -11,7 +11,7 @@ type Ds3231 struct {
 	Address uint16
 }
 
-func newDs3231(bus I2C, addr uint16) interface{} {
+func newDs3231(bus I2C, addr uint16) Ds3231 {
 	if addr != 0 {
 		return Ds3231{
 			bus:     bus,

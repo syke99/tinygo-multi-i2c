@@ -14,7 +14,7 @@ type Amg88xx struct {
 	interruptEnable uint8
 }
 
-func newAmg88xx(bus I2C, addr uint16) interface{} {
+func newAmg88xx(bus I2C, addr uint16) Amg88xx {
 	if addr != 0 {
 		return Amg88xx{
 			bus:     bus,

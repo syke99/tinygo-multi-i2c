@@ -31,7 +31,7 @@ type Bme280 struct {
 	calibrationCoefficients bme280CalibrationCoefficients
 }
 
-func newBme280(bus I2C, addr uint16) interface{} {
+func newBme280(bus I2C, addr uint16) Bme280 {
 	if addr != 0 {
 		return Bme280{
 			bus:     bus,

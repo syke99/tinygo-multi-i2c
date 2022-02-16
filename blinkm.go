@@ -5,7 +5,7 @@ type Blinkm struct {
 	Address uint16
 }
 
-func newBlinkm(bus I2C, addr uint16) interface{} {
+func newBlinkm(bus I2C, addr uint16) Blinkm {
 	if addr != 0 {
 		return Blinkm{
 			bus:     bus,
