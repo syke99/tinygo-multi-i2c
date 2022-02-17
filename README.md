@@ -122,4 +122,6 @@ illuminance, error := bh.Illuminance()
 // handle error and/or using illuminance reading value here
 ```
 
-(screenshot will go here)
+**Note**
+Due to these drivers requiring an I2C bus that is set up outside of this package (utilizing the machine package that TinyGo uses and you must have configured your IDE to
+be able to use), adding tests to this package is beyond its scope (due to not having direct access to the machine package coupled with the fact the machine package is dependent on the microcontroller your program(s) will be running on).
