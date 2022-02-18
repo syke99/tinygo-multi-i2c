@@ -10,16 +10,9 @@ type Lis3dh struct {
 }
 
 func newLis3dh(bus I2C, addr uint16) Lis3dh {
-	if addr != 0 {
-		return Lis3dh{
-			bus:     bus,
-			Address: addr,
-		}
-	} else {
-		return Lis3dh{
-			bus:     bus,
-			Address: Lis3dhAddress0,
-		}
+	return Lis3dh{
+		bus:     bus,
+		Address: addr,
 	}
 }
 

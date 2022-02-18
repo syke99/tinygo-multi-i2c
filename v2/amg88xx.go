@@ -15,16 +15,9 @@ type Amg88xx struct {
 }
 
 func newAmg88xx(bus I2C, addr uint16) Amg88xx {
-	if addr != 0 {
-		return Amg88xx{
-			bus:     bus,
-			Address: addr,
-		}
-	} else {
-		return Amg88xx{
-			bus:     bus,
-			Address: Amg88xxAddressHigh,
-		}
+	return Amg88xx{
+		bus:     bus,
+		Address: addr,
 	}
 }
 

@@ -6,16 +6,9 @@ type Lps22hb struct {
 }
 
 func newLps22hb(bus I2C, addr uint16) Lps22hb {
-	if addr != 0 {
-		return Lps22hb{
-			bus:     bus,
-			Address: uint8(addr),
-		}
-	} else {
-		return Lps22hb{
-			bus:     bus,
-			Address: Lps22hbAddress_1,
-		}
+	return Lps22hb{
+		bus:     bus,
+		Address: uint8(addr),
 	}
 }
 

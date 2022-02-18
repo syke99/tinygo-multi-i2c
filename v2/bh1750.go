@@ -11,18 +11,10 @@ type Bh1750 struct {
 }
 
 func newBh1750(bus I2C, addr uint16) Bh1750 {
-	if addr != 0 {
-		return Bh1750{
-			bus:     bus,
-			Address: addr,
-			mode:    BH1750_CONTINUOUS_HIGH_RES_MODE,
-		}
-	} else {
-		return Bh1750{
-			bus:     bus,
-			Address: Bh1750Address_1,
-			mode:    BH1750_CONTINUOUS_HIGH_RES_MODE,
-		}
+	return Bh1750{
+		bus:     bus,
+		Address: addr,
+		mode:    BH1750_CONTINUOUS_HIGH_RES_MODE,
 	}
 }
 

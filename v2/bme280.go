@@ -32,16 +32,9 @@ type Bme280 struct {
 }
 
 func newBme280(bus I2C, addr uint16) Bme280 {
-	if addr != 0 {
-		return Bme280{
-			bus:     bus,
-			Address: addr,
-		}
-	} else {
-		return Bme280{
-			bus:     bus,
-			Address: Bme280Address_1,
-		}
+	return Bme280{
+		bus:     bus,
+		Address: addr,
 	}
 }
 

@@ -6,16 +6,9 @@ type Mpu6050 struct {
 }
 
 func newMpu6050(bus I2C, addr uint16) Mpu6050 {
-	if addr != 0 {
-		return Mpu6050{
-			bus:     bus,
-			Address: addr,
-		}
-	} else {
-		return Mpu6050{
-			bus:     bus,
-			Address: Mpu6050Address_1,
-		}
+	return Mpu6050{
+		bus:     bus,
+		Address: addr,
 	}
 }
 

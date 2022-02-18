@@ -37,36 +37,19 @@ type Adxl345 struct {
 }
 
 func newAdx1345(bus I2C, addr uint16) Adxl345 {
-	if addr != 0 {
-		return Adxl345{
-			bus: bus,
-			powerCtl: adxl345PowerCtl{
-				measure: 1,
-			},
-			dataFormat: adxl345DataFormat{
-				sensorRange: ADX1345_RANGE_2G,
-			},
-			bwRate: adxl345BwRate{
-				lowPower: 1,
-				rate:     ADX1345_RATE_100HZ,
-			},
-			Address: addr,
-		}
-	} else {
-		return Adxl345{
-			bus: bus,
-			powerCtl: adxl345PowerCtl{
-				measure: 1,
-			},
-			dataFormat: adxl345DataFormat{
-				sensorRange: ADX1345_RANGE_2G,
-			},
-			bwRate: adxl345BwRate{
-				lowPower: 1,
-				rate:     ADX1345_RATE_100HZ,
-			},
-			Address: Adx1345AddressLow,
-		}
+	return Adxl345{
+		bus: bus,
+		powerCtl: adxl345PowerCtl{
+			measure: 1,
+		},
+		dataFormat: adxl345DataFormat{
+			sensorRange: ADX1345_RANGE_2G,
+		},
+		bwRate: adxl345BwRate{
+			lowPower: 1,
+			rate:     ADX1345_RATE_100HZ,
+		},
+		Address: addr,
 	}
 }
 

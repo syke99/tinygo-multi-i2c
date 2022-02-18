@@ -6,16 +6,9 @@ type Blinkm struct {
 }
 
 func newBlinkm(bus I2C, addr uint16) Blinkm {
-	if addr != 0 {
-		return Blinkm{
-			bus:     bus,
-			Address: addr,
-		}
-	} else {
-		return Blinkm{
-			bus:     bus,
-			Address: BlinkmAddress_DEFAULT,
-		}
+	return Blinkm{
+		bus:     bus,
+		Address: addr,
 	}
 }
 
