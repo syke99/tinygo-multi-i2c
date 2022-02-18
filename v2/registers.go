@@ -169,72 +169,6 @@ const (
 	BME280_SEALEVEL_PRESSURE float32 = 1013.25 // in hPa
 )
 
-// BMP280 registers
-const Bmp280Address_1 = 0x77
-const Bmp280Address_2 = 0x76
-
-const (
-	BMP280_REG_ID        = 0xD0 // WHO_AM_I
-	BMP280_REG_RESET     = 0xE0
-	BMP280_REG_STATUS    = 0xF3
-	BMP280_REG_CTRL_MEAS = 0xF4
-	BMP280_REG_CONFIG    = 0xF5
-	BMP280_REG_TEMP      = 0xFA
-	BMP280_REG_PRES      = 0xF7
-	BMP280_REG_CALI      = 0x88
-
-	BMP280_CHIP_ID   = 0x58
-	BMP280_CMD_RESET = 0xB6
-)
-
-const (
-	BMP280_SAMPLING_SKIPPED uint = iota
-	BMP280_SAMPLING_1X
-	BMP280_SAMPLING_2X
-	BMP280_SAMPLING_4X
-	BMP280_SAMPLING_8X
-	BMP280_SAMPLING_16X
-)
-
-const (
-	BMP280_MODE_SLEEP  uint = 0x00
-	BMP280_MODE_FORCED uint = 0x01
-	BMP280_MODE_NORMAL uint = 0x03
-)
-
-const (
-	BMP280_STANDBY_1MS uint = iota
-	BMP280_STANDBY_63MS
-	BMP280_STANDBY_125MS
-	BMP280_STANDBY_250MS
-	BMP280_STANDBY_500MS
-	BMP280_STANDBY_1000MS
-	BMP280_STANDBY_2000MS
-	BMP280_STANDBY_4000MS
-)
-
-const (
-	BMP280_FILTER_OFF uint = iota
-	BMP280_FILTER_2X
-	BMP280_FILTER_4X
-	BMP280_FILTER_8X
-	BMP280_FILTER_16X
-)
-
-// INA250 registers
-const Ina250Address = 0x40
-
-const (
-	INA250_REG_CONFIG     = 0x00
-	INA250_REG_CURRENT    = 0x01
-	INA250_REG_BUSVOLTAGE = 0x02
-	INA250_REG_POWER      = 0x03
-	INA250_REG_MASKENABLE = 0x06
-	INA250_REG_ALERTLIMIT = 0x07
-	INA250_REG_MANF_ID    = 0xFE
-	INA250_REG_DIE_ID     = 0xFF
-)
-
 // LIS3DH registers
 const (
 	Lis3dhAddress0 = 0x18 // SA0 is low
@@ -307,7 +241,8 @@ const (
 )
 
 // LPS22HB registers
-const Lps22hbAddress = 0x5C
+const Lps22hbAddress_1 = 0x5C
+const Lps22hbAddress_2 = 0x5D
 
 const (
 	LPS22HB_WHO_AM_I_REG  = 0x0F
@@ -319,7 +254,8 @@ const (
 )
 
 // MPU6050 registers
-const Mpu6050Address = 0x68
+const Mpu6050Address_1 = 0x68
+const Mpu6050Address_2 = 0x69
 
 const (
 	// Self test registers

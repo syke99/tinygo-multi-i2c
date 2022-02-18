@@ -8,97 +8,166 @@ import (
 // Sensortech requires some settings to be passed in as an array with
 // a length of 5, of uint values to set Standby, Filter, Temperature, Pressure,
 // and Mode
-func NewDevice(bus I2C, deviceName string, addr uint16, bmp280Settings [5]uint) (Devices, error) {
+func NewDevice(bus I2C, deviceName string, devNumber int, bmp280Settings [5]uint) (Devices, []error) {
+
+	adxl345Addresses := []uint16{Adx1345AddressHigh, Adx1345AddressLow}
+	amg88xxAddresses := []uint16{Amg88xxAddressHigh, Amg88xxAddressLow}
+	bh1650Addresses := []uint16{Bh1750Address_1, Bh1750Address_2}
+	blinkmAddresses := []uint16{BlinkmAddress_DEFAULT, BlinkmAddress_GENERAL}
+	bme280Addresses := []uint16{Bme280Address_1, Bme280Address_2}
+	lis3dhAddresses := []uint16{Lis3dhAddress0, Lis3dhAddress1}
+	lps22hbAddresses := []uint16{Lps22hbAddress_1, Lps22hbAddress_2}
+	mpu6050Addresses := []uint16{Mpu6050Address_1, Mpu6050Address_2}
 
 	var dvc Devices
 
-	var newDeviceError error
+	var newDeviceError []error
 
-	// This new switch allows for avoiding unnecessary polymorphism
-	// like was implemented in v0.1.0 the polymorphism required
-	// switching on an interface type assertion that could cause
-	// package to panic due to possibly removing the ability for more type
-	// asserting that was required for testing the connection.
 	switch deviceName {
 	case "adxl345":
-		dvc.addAdxl1345(newAdx1345(bus, addr))
 
-		dvc.adxl345[0].configure()
+		i := 0
 
-		return dvc, newDeviceError
+		if devNumber <= len(adxl345Addresses) {
+			for i < devNumber {
+				dvc.addAdxl1345(newAdx1345(bus, adxl345Addresses[i]))
+
+				dvc.adxl345[i].configure()
+			}
+			return dvc, newDeviceError
+		} else {
+			createErr := errors.New("number of devices to create greater than available addresses for device")
+			return dvc, append(newDeviceError, createErr)
+		}
 	case "amg88xx":
-		dvc.addAmg88xx(newAmg88xx(bus, addr))
 
-		dvc.amg88xx[0].configure()
+		i := 0
 
-		return dvc, newDeviceError
+		if devNumber <= len(amg88xxAddresses) {
+			for i < devNumber {
+				dvc.addAmg88xx(newAmg88xx(bus, amg88xxAddresses[i]))
+
+				dvc.amg88xx[i].configure()
+			}
+			return dvc, newDeviceError
+		} else {
+			createErr := errors.New("number of devices to create greater than available addresses for device")
+			return dvc, append(newDeviceError, createErr)
+		}
 	case "bh1750":
-		dvc.addBh1750(newBh1750(bus, addr))
 
-		dvc.bh1750[0].configure()
+		i := 0
 
-		return dvc, newDeviceError
+		if devNumber <= len(bh1650Addresses) {
+			for i < devNumber {
+				dvc.addBh1750(newBh1750(bus, bh1650Addresses[i]))
+
+				dvc.bh1750[i].configure()
+			}
+			return dvc, newDeviceError
+		} else {
+			createErr := errors.New("number of devices to create greater than available addresses for device")
+			return dvc, append(newDeviceError, createErr)
+		}
 	case "blinkm":
-		dvc.addBlinkm(newBlinkm(bus, addr))
 
-		dvc.blinkm[0].configure()
+		i := 0
 
-		return dvc, newDeviceError
+		if devNumber <= len(blinkmAddresses) {
+			for i < devNumber {
+				dvc.addBlinkm(newBlinkm(bus, blinkmAddresses[i]))
+
+				dvc.blinkm[i].configure()
+			}
+			return dvc, newDeviceError
+		} else {
+			createErr := errors.New("number of devices to create greater than available addresses for device")
+			return dvc, append(newDeviceError, createErr)
+		}
 	case "bme280":
-		dvc.addBme280(newBme280(bus, addr))
 
-		dvc.bme280[0].configure()
+		i := 0
 
-		err := dvc.bme280[0].connected()
-		if !err {
-			newDeviceError = errors.New("device configured but unable to connect")
+		if devNumber <= len(bme280Addresses) {
+			for i < devNumber {
+				dvc.addBme280(newBme280(bus, bme280Addresses[i]))
+
+				dvc.bme280[i].configure()
+			}
+
+			err := dvc.bme280[i].connected()
+			if !err {
+				newDeviceError = append(newDeviceError, errors.New("device configured but unable to connect"))
+			}
+
+			return dvc, newDeviceError
+		} else {
+			createErr := errors.New("number of devices to create greater than available addresses for device")
+			return dvc, append(newDeviceError, createErr)
 		}
-
-		return dvc, newDeviceError
-	case "bmp280":
-		dvc.addBmp280(newBmp280(bus, addr))
-
-		dvc.bmp280[0].configure(bmp280Settings[0], bmp280Settings[1], bmp280Settings[2], bmp280Settings[3], bmp280Settings[4])
-
-		err := dvc.bmp280[0].connected()
-		if !err {
-			newDeviceError = errors.New("device configured but unable to connect")
-		}
-
-		return dvc, newDeviceError
 	case "lis3dh":
-		dvc.addLis3dh(newLis3dh(bus, addr))
 
-		dvc.lis3dh[0].configure()
+		i := 0
 
-		err := dvc.lis3dh[0].connected()
-		if !err {
-			newDeviceError = errors.New("device configured but unable to connect")
+		if devNumber <= len(lis3dhAddresses) {
+			for i < devNumber {
+				dvc.addLis3dh(newLis3dh(bus, lis3dhAddresses[i]))
+
+				dvc.lis3dh[i].configure()
+			}
+
+			err := dvc.lis3dh[i].connected()
+			if !err {
+				newDeviceError = append(newDeviceError, errors.New("device configured but unable to connect"))
+			}
+
+			return dvc, newDeviceError
+		} else {
+			createErr := errors.New("number of devices to create greater than available addresses for device")
+			return dvc, append(newDeviceError, createErr)
 		}
-
-		return dvc, newDeviceError
 	case "lps22hb":
-		dvc.addLps22hb(newLps22hb(bus, addr))
 
-		dvc.lps22hb[0].configure()
+		i := 0
 
-		err := dvc.lps22hb[0].connected()
-		if !err {
-			newDeviceError = errors.New("device configured but unable to connect")
+		if devNumber <= len(lps22hbAddresses) {
+			for i < devNumber {
+				dvc.addLps22hb(newLps22hb(bus, lps22hbAddresses[i]))
+
+				dvc.lps22hb[i].configure()
+			}
+
+			err := dvc.lps22hb[i].connected()
+			if !err {
+				newDeviceError = append(newDeviceError, errors.New("device configured but unable to connect"))
+			}
+
+			return dvc, newDeviceError
+		} else {
+			createErr := errors.New("number of devices to create greater than available addresses for device")
+			return dvc, append(newDeviceError, createErr)
 		}
-
-		return dvc, newDeviceError
 	case "mpu6050":
-		dvc.addMpu6050(newMpu6050(bus, addr))
 
-		dvc.mpu6050[0].configure()
+		i := 0
 
-		err := dvc.mpu6050[0].connected()
-		if !err {
-			newDeviceError = errors.New("device configured but unable to connect")
+		if devNumber <= len(mpu6050Addresses) {
+			for i < devNumber {
+				dvc.addMpu6050(newMpu6050(bus, mpu6050Addresses[i]))
+
+				dvc.mpu6050[i].configure()
+			}
+
+			err := dvc.mpu6050[i].connected()
+			if !err {
+				newDeviceError = append(newDeviceError, errors.New("device configured but unable to connect"))
+			}
+
+			return dvc, newDeviceError
+		} else {
+			createErr := errors.New("number of devices to create greater than available addresses for device")
+			return dvc, append(newDeviceError, createErr)
 		}
-
-		return dvc, newDeviceError
 	default:
 		return dvc, newDeviceError
 	}

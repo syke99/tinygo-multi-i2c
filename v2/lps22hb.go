@@ -14,7 +14,7 @@ func newLps22hb(bus I2C, addr uint16) Lps22hb {
 	} else {
 		return Lps22hb{
 			bus:     bus,
-			Address: Lps22hbAddress,
+			Address: Lps22hbAddress_1,
 		}
 	}
 }

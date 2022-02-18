@@ -14,7 +14,7 @@ func newMpu6050(bus I2C, addr uint16) Mpu6050 {
 	} else {
 		return Mpu6050{
 			bus:     bus,
-			Address: Mpu6050Address,
+			Address: Mpu6050Address_1,
 		}
 	}
 }

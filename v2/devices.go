@@ -6,7 +6,6 @@ type Devices struct {
 	bh1750  []Bh1750
 	blinkm  []Blinkm
 	bme280  []Bme280
-	bmp280  []Bmp280
 	lis3dh  []Lis3dh
 	lps22hb []Lps22hb
 	mpu6050 []Mpu6050
@@ -30,10 +29,6 @@ func (d *Devices) addBlinkm(v Blinkm) {
 
 func (d *Devices) addBme280(v Bme280) {
 	d.bme280 = append(d.bme280, v)
-}
-
-func (d *Devices) addBmp280(v Bmp280) {
-	d.bmp280 = append(d.bmp280, v)
 }
 
 func (d *Devices) addLis3dh(v Lis3dh) {
