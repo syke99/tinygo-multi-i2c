@@ -8,7 +8,7 @@ import (
 // Sensortech requires some settings to be passed in as an array with
 // a length of 5, of uint values to set Standby, Filter, Temperature, Pressure,
 // and Mode
-func NewDevice(bus I2C, deviceName string, devNumber int, bmp280Settings [5]uint) (Devices, []error) {
+func NewDevice(bus I2C, deviceName string, devNumber int) (Devices, []error) {
 
 	adxl345Addresses := []uint16{Adx1345AddressHigh, Adx1345AddressLow}
 	amg88xxAddresses := []uint16{Amg88xxAddressHigh, Amg88xxAddressLow}
