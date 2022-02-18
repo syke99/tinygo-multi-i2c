@@ -33,6 +33,7 @@ func NewDevice(bus I2C, deviceName string, devNumber int) (Devices, []error) {
 				dvc.addAdxl1345(newAdx1345(bus, adxl345Addresses[i]))
 
 				dvc.adxl345[i].configure()
+				i++
 			}
 			return dvc, newDeviceError
 		} else {
@@ -48,6 +49,7 @@ func NewDevice(bus I2C, deviceName string, devNumber int) (Devices, []error) {
 				dvc.addAmg88xx(newAmg88xx(bus, amg88xxAddresses[i]))
 
 				dvc.amg88xx[i].configure()
+				i++
 			}
 			return dvc, newDeviceError
 		} else {
@@ -63,6 +65,7 @@ func NewDevice(bus I2C, deviceName string, devNumber int) (Devices, []error) {
 				dvc.addBh1750(newBh1750(bus, bh1650Addresses[i]))
 
 				dvc.bh1750[i].configure()
+				i++
 			}
 			return dvc, newDeviceError
 		} else {
@@ -78,6 +81,7 @@ func NewDevice(bus I2C, deviceName string, devNumber int) (Devices, []error) {
 				dvc.addBlinkm(newBlinkm(bus, blinkmAddresses[i]))
 
 				dvc.blinkm[i].configure()
+				i++
 			}
 			return dvc, newDeviceError
 		} else {
@@ -93,11 +97,12 @@ func NewDevice(bus I2C, deviceName string, devNumber int) (Devices, []error) {
 				dvc.addBme280(newBme280(bus, bme280Addresses[i]))
 
 				dvc.bme280[i].configure()
-			}
 
-			err := dvc.bme280[i].connected()
-			if !err {
-				newDeviceError = append(newDeviceError, errors.New("device configured but unable to connect"))
+				err := dvc.bme280[i].connected()
+				if !err {
+					newDeviceError = append(newDeviceError, errors.New("device configured but unable to connect"))
+				}
+				i++
 			}
 
 			return dvc, newDeviceError
@@ -114,11 +119,12 @@ func NewDevice(bus I2C, deviceName string, devNumber int) (Devices, []error) {
 				dvc.addLis3dh(newLis3dh(bus, lis3dhAddresses[i]))
 
 				dvc.lis3dh[i].configure()
-			}
 
-			err := dvc.lis3dh[i].connected()
-			if !err {
-				newDeviceError = append(newDeviceError, errors.New("device configured but unable to connect"))
+				err := dvc.lis3dh[i].connected()
+				if !err {
+					newDeviceError = append(newDeviceError, errors.New("device configured but unable to connect"))
+				}
+				i++
 			}
 
 			return dvc, newDeviceError
@@ -135,11 +141,12 @@ func NewDevice(bus I2C, deviceName string, devNumber int) (Devices, []error) {
 				dvc.addLps22hb(newLps22hb(bus, lps22hbAddresses[i]))
 
 				dvc.lps22hb[i].configure()
-			}
 
-			err := dvc.lps22hb[i].connected()
-			if !err {
-				newDeviceError = append(newDeviceError, errors.New("device configured but unable to connect"))
+				err := dvc.lps22hb[i].connected()
+				if !err {
+					newDeviceError = append(newDeviceError, errors.New("device configured but unable to connect"))
+				}
+				i++
 			}
 
 			return dvc, newDeviceError
@@ -156,11 +163,12 @@ func NewDevice(bus I2C, deviceName string, devNumber int) (Devices, []error) {
 				dvc.addMpu6050(newMpu6050(bus, mpu6050Addresses[i]))
 
 				dvc.mpu6050[i].configure()
-			}
 
-			err := dvc.mpu6050[i].connected()
-			if !err {
-				newDeviceError = append(newDeviceError, errors.New("device configured but unable to connect"))
+				err := dvc.mpu6050[i].connected()
+				if !err {
+					newDeviceError = append(newDeviceError, errors.New("device configured but unable to connect"))
+				}
+				i++
 			}
 
 			return dvc, newDeviceError
