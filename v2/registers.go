@@ -1,4 +1,4 @@
-package multi
+package v2
 
 // ADX1345 registers
 const Adx1345AddressLow = 0x53
@@ -106,11 +106,9 @@ const (
 	AMG88XX_THERMISTOR_CONVERSION = 625
 )
 
-// AT24CX registers
-const At24cxAddress = 0x57
-
 // BH1750 registers
-const Bh1750Address = 0x23
+const Bh1750Address_1 = 0x23
+const Bh1750Address_2 = 0x23
 
 const (
 	BH1750_POWER_DOWN                      = 0x00
@@ -130,7 +128,8 @@ const (
 )
 
 // BLINKM registers
-const BlinkmAddress = 0x09
+const BlinkmAddress_DEFAULT = 0x09
+const BlinkmAddress_GENERAL = 0x00
 
 const (
 	BLINKM_TO_RGB            = 0x6e
@@ -149,7 +148,8 @@ const (
 )
 
 // BME280 registers
-const Bme280Address = 0x76
+const Bme280Address_1 = 0x76
+const Bme280Address_2 = 0x77
 
 const (
 	BME280_CTRL_MEAS_ADDR        = 0xF4
@@ -170,7 +170,8 @@ const (
 )
 
 // BMP280 registers
-const Bmp280Address = 0x77
+const Bmp280Address_1 = 0x77
+const Bmp280Address_2 = 0x76
 
 const (
 	BMP280_REG_ID        = 0xD0 // WHO_AM_I

@@ -11,7 +11,6 @@ Supported Devices
 - BLINKM: I2C-controllable LEDs 
 - BME280 - I2C Humidity and Pressure Sensor by Bosch Sensortec
 - BMP280 - I2C Barometric Pressure Sensor by Bosch Sensortec
-- DS3231 - I2C RTC (Real-Time-Clock) by Adafruit
 - LIS3DH - I2C Acclerometer by STMicroelectronics
 - MPU6050 - I2C (Gyro + Acclerometer) MEMS Motion Tracking Device by InvenSense/TDK
 

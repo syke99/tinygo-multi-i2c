@@ -1,4 +1,4 @@
-package multi
+package v2
 
 import (
 	"errors"
@@ -23,33 +23,33 @@ func NewDevice(bus I2C, deviceName string, addr uint16, bmp280Settings [5]uint) 
 	case "adxl345":
 		dvc.addAdxl1345(newAdx1345(bus, addr))
 
-		dvc.adxl345.configure()
+		dvc.adxl345[0].configure()
 
 		return dvc, newDeviceError
 	case "amg88xx":
 		dvc.addAmg88xx(newAmg88xx(bus, addr))
 
-		dvc.amg88xx.configure()
+		dvc.amg88xx[0].configure()
 
 		return dvc, newDeviceError
 	case "bh1750":
 		dvc.addBh1750(newBh1750(bus, addr))
 
-		dvc.bh1750.configure()
+		dvc.bh1750[0].configure()
 
 		return dvc, newDeviceError
 	case "blinkm":
 		dvc.addBlinkm(newBlinkm(bus, addr))
 
-		dvc.blinkm.configure()
+		dvc.blinkm[0].configure()
 
 		return dvc, newDeviceError
 	case "bme280":
 		dvc.addBme280(newBme280(bus, addr))
 
-		dvc.bme280.configure()
+		dvc.bme280[0].configure()
 
-		err := dvc.bme280.connected()
+		err := dvc.bme280[0].connected()
 		if !err {
 			newDeviceError = errors.New("device configured but unable to connect")
 		}
@@ -58,9 +58,9 @@ func NewDevice(bus I2C, deviceName string, addr uint16, bmp280Settings [5]uint) 
 	case "bmp280":
 		dvc.addBmp280(newBmp280(bus, addr))
 
-		dvc.bmp280.configure(bmp280Settings[0], bmp280Settings[1], bmp280Settings[2], bmp280Settings[3], bmp280Settings[4])
+		dvc.bmp280[0].configure(bmp280Settings[0], bmp280Settings[1], bmp280Settings[2], bmp280Settings[3], bmp280Settings[4])
 
-		err := dvc.bmp280.connected()
+		err := dvc.bmp280[0].connected()
 		if !err {
 			newDeviceError = errors.New("device configured but unable to connect")
 		}
@@ -69,9 +69,9 @@ func NewDevice(bus I2C, deviceName string, addr uint16, bmp280Settings [5]uint) 
 	case "lis3dh":
 		dvc.addLis3dh(newLis3dh(bus, addr))
 
-		dvc.lis3dh.configure()
+		dvc.lis3dh[0].configure()
 
-		err := dvc.lis3dh.connected()
+		err := dvc.lis3dh[0].connected()
 		if !err {
 			newDeviceError = errors.New("device configured but unable to connect")
 		}
@@ -80,9 +80,9 @@ func NewDevice(bus I2C, deviceName string, addr uint16, bmp280Settings [5]uint) 
 	case "lps22hb":
 		dvc.addLps22hb(newLps22hb(bus, addr))
 
-		dvc.lps22hb.configure()
+		dvc.lps22hb[0].configure()
 
-		err := dvc.lps22hb.connected()
+		err := dvc.lps22hb[0].connected()
 		if !err {
 			newDeviceError = errors.New("device configured but unable to connect")
 		}
@@ -91,9 +91,9 @@ func NewDevice(bus I2C, deviceName string, addr uint16, bmp280Settings [5]uint) 
 	case "mpu6050":
 		dvc.addMpu6050(newMpu6050(bus, addr))
 
-		dvc.mpu6050.configure()
+		dvc.mpu6050[0].configure()
 
-		err := dvc.mpu6050.connected()
+		err := dvc.mpu6050[0].connected()
 		if !err {
 			newDeviceError = errors.New("device configured but unable to connect")
 		}
