@@ -66,12 +66,6 @@ func NewDevice(bus I2C, deviceName string, addr uint16, bmp280Settings [5]uint) 
 		}
 
 		return dvc, newDeviceError
-	case "ds3231":
-		dvc.addDs3231(newDs3231(bus, addr))
-
-		dvc.ds3231.configure()
-
-		return dvc, newDeviceError
 	case "lis3dh":
 		dvc.addLis3dh(newLis3dh(bus, addr))
 
